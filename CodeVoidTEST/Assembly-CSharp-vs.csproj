@@ -46,8 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\PlayerCamera.cs" />
-     <Compile Include="Assets\PlayerControl.cs" />
+     <Compile Include="Assets\Scripts\C#\Character\NPC\NpcManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Character\Player\PlayerCamera.cs" />
+     <Compile Include="Assets\Scripts\C#\Character\Player\PlayerControl.cs" />
+     <Compile Include="Assets\Scripts\C#\Character\Player\ViewManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Env\Target.cs" />
+     <Compile Include="Assets\Scripts\C#\Quest\Quest.cs" />
+     <Compile Include="Assets\Scripts\C#\Quest\QuestManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Quest\QuestUIManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Quest\Quests\Example_Quest.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

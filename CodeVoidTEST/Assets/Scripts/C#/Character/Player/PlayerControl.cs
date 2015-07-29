@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour {
 
 	Animator an;
+	public Camera MainCamera;
 	public GameObject LookReference;
 	public GameObject TurnReference;
 	public GameObject PlayerModel;
@@ -12,13 +13,15 @@ public class PlayerControl : MonoBehaviour {
 	AudioSource Gunshot;
 	public ParticleSystem GunFlare;
 
+	bool ADS = false;
 	bool UpdateRotation = false;
-	bool AlreadyUpdating = false;
 	float ShootingTimer = 0f;
 
 	public float MoveSpeed;
 	public float AimMoveSpeed;
 	Quaternion LastTurn;
+
+	float normalFOV = 90f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +30,8 @@ public class PlayerControl : MonoBehaviour {
 		cc = GetComponent <CharacterController> ();
 
 		Gunshot = GetComponent <AudioSource>();
+
+		normalFOV = MainCamera.fieldOfView;
 	}
 
 	Vector3 movement = Vector3.zero;
@@ -44,6 +49,15 @@ public class PlayerControl : MonoBehaviour {
 
 		if (an.GetBool("Shooting"))
 		    PlayerModel.transform.rotation = Quaternion.LookRotation(transform.forward);
+
+		if (Input.GetMouseButtonDown (1)) {
+			ADS = true;
+			an.SetBool("Shooting", true);
+			ShootingTimer = 0.5f;
+		}
+		if (Input.GetMouseButtonUp (1)) {
+			ADS = false;
+		}
 
 		//Forward
 		if (Input.GetKey (KeyCode.W)) {
@@ -124,17 +138,23 @@ public class PlayerControl : MonoBehaviour {
 			ShootingTimer = 0.5f;
 			PlayerModel.transform.rotation = Quaternion.LookRotation(transform.forward);
 		}
-		if (ShootingTimer > 0) {
+		if (ShootingTimer > 0 && !ADS) {
 			ShootingTimer -= Time.deltaTime;
 		}
 		if (an.GetBool ("Shooting") && ShootingTimer < 0)
 			an.SetBool ("Shooting", false);
 
+		if (ADS) {
+			UpdateRotation = true;
+			MainCamera.fieldOfView = Mathf.Lerp (MainCamera.fieldOfView, normalFOV * 0.7f, (0.99f * Time.deltaTime*5));
+		} else {
+			MainCamera.fieldOfView = Mathf.Lerp(MainCamera.fieldOfView, normalFOV, 0.99f*(Time.deltaTime*10));
+		}
+
 		if (UpdateRotation) {
 			transform.rotation = TurnReference.transform.rotation;
 			TurnReference.transform.rotation = new Quaternion (0f, 0f, 0f, 0f);
-		} else
-			AlreadyUpdating = false;
+		}
 
 		cc.Move(movement);
 	}
