@@ -1,0 +1,133 @@
+fileFormatVersion: 2
+guid: 91c6ebde325531a418cb0ad73c904168
+timeCreated: 1438186492
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Armor T3.Arms
+    100002: Armor T3.Legs
+    100004: Armor T3.Torso
+    100006: Armor T3.Torso.001
+    100008: //RootNode
+    100010: Base
+    100012: bicep.l
+    100014: bicep.r
+    100016: boot.l
+    100018: boot.l_end
+    100020: boot.r
+    100022: boot.r_end
+    100024: forearm.l
+    100026: forearm.l_end
+    100028: forearm.r
+    100030: GunBone
+    100032: GunBone_end
+    100034: Head
+    100036: Head_end
+    100038: hip.l
+    100040: hip.r
+    100042: shoulder.l
+    100044: shoulder.r
+    100046: Skeleton
+    100048: thigh.l
+    100050: thigh.r
+    100052: Torso
+    400000: Armor T3.Arms
+    400002: Armor T3.Legs
+    400004: Armor T3.Torso
+    400006: Armor T3.Torso.001
+    400008: //RootNode
+    400010: Base
+    400012: bicep.l
+    400014: bicep.r
+    400016: boot.l
+    400018: boot.l_end
+    400020: boot.r
+    400022: boot.r_end
+    400024: forearm.l
+    400026: forearm.l_end
+    400028: forearm.r
+    400030: GunBone
+    400032: GunBone_end
+    400034: Head
+    400036: Head_end
+    400038: hip.l
+    400040: hip.r
+    400042: shoulder.l
+    400044: shoulder.r
+    400046: Skeleton
+    400048: thigh.l
+    400050: thigh.r
+    400052: Torso
+    4300000: Armor T3.Torso.001
+    4300002: Armor T3.Torso
+    4300004: Armor T3.Legs
+    4300006: Armor T3.Arms
+    7400000: Skeleton|SkeletonAction
+    9500000: //RootNode
+    13700000: Armor T3.Arms
+    13700002: Armor T3.Legs
+    13700004: Armor T3.Torso
+    13700006: Armor T3.Torso.001
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
