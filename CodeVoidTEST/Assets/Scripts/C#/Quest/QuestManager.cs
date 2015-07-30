@@ -13,13 +13,17 @@ public class QuestManager : MonoBehaviour {
 
     public void RemoveQuest(int uid)
     {
+        int x = -1;
         foreach (Quest quest in quests)
         {
             if (quest.UID == uid)
             {
-                quests.Remove(quest);
-            }
+                x++;
+                break;
+            }            
         }
+        quests.RemoveAt(x);
+        Debug.Log("Removed quest: " + uid);
     }
 
     public Quest GetQuest(int uid)
