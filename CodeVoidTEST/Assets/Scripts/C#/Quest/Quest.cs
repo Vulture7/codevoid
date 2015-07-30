@@ -4,14 +4,15 @@ using System.Collections;
 public class Quest {
 
     private int uid;
-    private string title, text;
+    private string title, text, endtext;
     private bool completed;
 
-    public Quest(int uid, string title, string text)
+    public Quest(int uid, string title, string text, string endtext)
     {
         this.uid = uid;
         this.title = title;
         this.text = text;
+        this.endtext = endtext;
     }
 
     public int UID
@@ -35,6 +36,14 @@ public class Quest {
         get
         {
             return this.text;
+        }
+    }
+
+    public string ENDTEXT
+    {
+        get
+        {
+            return this.endtext;
         }
     }
 

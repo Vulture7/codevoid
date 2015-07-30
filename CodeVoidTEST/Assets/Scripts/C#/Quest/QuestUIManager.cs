@@ -19,9 +19,12 @@ public class QuestUIManager : MonoBehaviour {
         if (quest.COMPLETED)
         {
             uiText.text = "Nice shooting! I'm afraid I lied. I don't have anything to give you. But thanks!";
-            //GiVE REWARDS
+            transform.GetChild(transform.childCount - 1).transform.gameObject.SetActive(false);
+            transform.GetChild(transform.childCount - 2).transform.gameObject.SetActive(false);
         }
-        else { uiText.text = quest.TEXT; }   
+        else { uiText.text = quest.TEXT; }
+        //Quest exists, remove the accept button.
+        if (questManager.GetComponent<QuestManager>().GetQuest(quest.UID) != null) { transform.GetChild(transform.childCount - 1).transform.gameObject.SetActive(false); }
         gameObject.SetActive(true);
     }
 
@@ -33,6 +36,7 @@ public class QuestUIManager : MonoBehaviour {
 
     public void Decline()
     {
+        if (questManager.GetComponent<QuestManager>().GetQuest(quest.UID) != null) { questManager.GetComponent<QuestManager>().RemoveQuest(quest.UID); }
         gameObject.SetActive(false);
     }
 

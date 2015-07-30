@@ -22,6 +22,19 @@ public class QuestManager : MonoBehaviour {
         }
     }
 
+    public Quest GetQuest(int uid)
+    {
+        foreach (Quest quest in quests)
+        {
+            if (quest.UID == uid)
+            {
+                return quest;
+            }
+        }
+        Debug.LogWarning("Could not find Quest: " + uid);
+        return null;
+    }
+
     public void CompleteQuest(int uid)
     {
         foreach (Quest quest in quests)
