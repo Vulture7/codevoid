@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\C#\Character\NPC\NpcManager.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerCamera.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerControl.cs" />
+     <Compile Include="Assets\Scripts\C#\Character\Player\RaycastTest.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\ViewManager.cs" />
      <Compile Include="Assets\Scripts\C#\Env\Target.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quest.cs" />

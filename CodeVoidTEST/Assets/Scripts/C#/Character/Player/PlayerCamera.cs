@@ -29,21 +29,21 @@ public class PlayerCamera : MonoBehaviour {
 			transform.Rotate (0f, -(mousex - Input.mousePosition.x) * XSensitivity, 0f);
 
 		if (ModifyVertical)
-			if ((mousey - Input.mousePosition.y) < 0 || transform.localRotation.x < 0.7) {
-				if ((mousey - Input.mousePosition.y) > 0 || transform.localRotation.x > -0.7) {
+			if ((mousey - Input.mousePosition.y) < 0 || transform.localRotation.x < 0.6) {
+				if ((mousey - Input.mousePosition.y) > 0 || transform.localRotation.x > -0.6) {
 					if (Invert) {
 						transform.Rotate (-(mousey - Input.mousePosition.y) * YSensitivity, 0f, 0f);
 					} else {
 						transform.Rotate ((mousey - Input.mousePosition.y) * YSensitivity, 0f, 0f);
 					}
 				} else {
-					transform.localRotation.Set(-0.7f,
+					transform.localRotation.Set(-0.6f,
 					                       transform.localRotation.y,
 					                       transform.localRotation.z,
 					                       transform.localRotation.w);
 				}
 			} else {
-				transform.localRotation.Set(0.7f,
+				transform.localRotation.Set(0.6f,
 				                       transform.localRotation.y,
 				                       transform.localRotation.z,
 				                       transform.localRotation.w);
