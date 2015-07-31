@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\C#\Character\NPC\NpcManager.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerCamera.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerControl.cs" />
+     <Compile Include="Assets\Scripts\C#\Character\Player\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\RaycastTest.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\UIController.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\ViewManager.cs" />
@@ -56,6 +57,9 @@
      <Compile Include="Assets\Scripts\C#\Env\Storage\CrateManager.cs" />
      <Compile Include="Assets\Scripts\C#\Env\Target.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\InventoryManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Inventory\Item.cs" />
+     <Compile Include="Assets\Scripts\C#\Inventory\ItemManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Inventory\SlotManager.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\AIPath.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\NavmeshController.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\Seeker.cs" />
@@ -128,6 +132,7 @@
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\changelog.cs" />
+     <Compile Include="Assets\Scripts\C#\Manager\ContextManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quest.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestUIManager.cs" />
