@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ViewManager : MonoBehaviour {
 
@@ -8,6 +9,8 @@ public class ViewManager : MonoBehaviour {
 
     public GameObject questUI;
     public GameObject questManager;
+
+    public Text interactText;
 
     void Update()
     {
@@ -24,8 +27,13 @@ public class ViewManager : MonoBehaviour {
                     break;
                 case "NPC":
                     if (hit.distance > 6f) { return; }
-                    if (Input.GetKeyDown(KeyCode.E)) { questUI.GetComponent<QuestUIManager>().ShowQuest(lastHit.GetComponent<NpcManager>().quest); return; }
+                    if (Input.GetKeyDown(SettingValues.interactKey)) { questUI.GetComponent<QuestUIManager>().ShowQuest(lastHit.GetComponent<NpcManager>().quest); return; }
                     hit.transform.GetComponent<NpcManager>().looking = true;
+                    break;
+                case "Crate":
+                    if (hit.distance > 6f) { return; }
+                    if (Input.GetKeyDown(SettingValues.interactKey)) { return; }
+                    hit.transform.GetComponent<CrateManager>().looking = true;
                     break;
                 default:
                     looking = false;
@@ -39,6 +47,11 @@ public class ViewManager : MonoBehaviour {
             {
                 case "NPC":
                     lastLooked.GetComponent<NpcManager>().looking = false;
+                    interactText.enabled = false;
+                    break;
+                case "Crate":
+                    lastLooked.GetComponent<CrateManager>().looking = false;
+                    interactText.enabled = false;
                     break;
             }
         }

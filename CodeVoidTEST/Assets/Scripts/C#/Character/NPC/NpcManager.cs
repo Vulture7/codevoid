@@ -17,6 +17,5 @@ public class NpcManager : MonoBehaviour {
     void Update()
     {
         if (looking) { interactText.enabled = true; }
-        else { interactText.enabled = false; }
     }
 }

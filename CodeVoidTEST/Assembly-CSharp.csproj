@@ -53,7 +53,9 @@
      <Compile Include="Assets\Scripts\C#\Character\Player\UIController.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\ViewManager.cs" />
      <Compile Include="Assets\Scripts\C#\Env\ItemSpawner.cs" />
+     <Compile Include="Assets\Scripts\C#\Env\Storage\CrateManager.cs" />
      <Compile Include="Assets\Scripts\C#\Env\Target.cs" />
+     <Compile Include="Assets\Scripts\C#\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\AIPath.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\NavmeshController.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\Seeker.cs" />
@@ -156,11 +158,11 @@
  <Reference Include="UnityEngine.Analytics">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
- <Reference Include="Pathfinding.JsonFx">
- <HintPath>D:/Users/goff-laptop/Documents/GitHub/codevoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
- </Reference>
  <Reference Include="Pathfinding.Ionic.Zip.Reduced">
  <HintPath>D:/Users/goff-laptop/Documents/GitHub/codevoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+ </Reference>
+ <Reference Include="Pathfinding.JsonFx">
+ <HintPath>D:/Users/goff-laptop/Documents/GitHub/codevoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>D:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
