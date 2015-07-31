@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class PlayerControl : MonoBehaviour {
 
 	Animator an;
+	Animator an_arm;
 	public Camera MainCamera;
 	public GameObject LookReference;
 	public GameObject TurnReference;
 	public GameObject PlayerModel;
+	public GameObject Arms;
+	public GameObject Chest;
 	CharacterController cc;
 
 	public GameObject gun;
@@ -29,6 +33,7 @@ public class PlayerControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		an = PlayerModel.GetComponent <Animator> ();
+		an_arm = Arms.GetComponent <Animator> ();
 
 		rct = gun.GetComponent <RaycastTest> ();
 
@@ -39,6 +44,15 @@ public class PlayerControl : MonoBehaviour {
 		normalFOV = MainCamera.fieldOfView;
 	}
 
+	void Anim_SetMultiBool(string name, bool value) {
+		an.SetBool(name, value);
+		an_arm.SetBool(name, value);
+	}
+
+	void Anim_SetMultiTrig(string triggername) {
+		an.SetTrigger (triggername);
+		an_arm.SetTrigger (triggername);
+	}
 
 	Vector3 movement = Vector3.zero;
 
@@ -56,16 +70,17 @@ public class PlayerControl : MonoBehaviour {
 
 		UpdateRotation = false;
 
+		/*
 		if (!cc.isGrounded)
 			movement.y -= Time.deltaTime;
 		else
 			movement.y = 0f;
-
+*/
 		//Begin horrible, awful code that will be optimized soon
 
 		if (Input.GetMouseButtonDown (1)) {
 			ADS = true;
-			an.SetBool("Shooting", true);
+			Anim_SetMultiBool("Shooting", true);
 			ShootingTimer = 0.01f;
 		}
 		if (Input.GetMouseButtonUp (1)) {
@@ -84,21 +99,21 @@ public class PlayerControl : MonoBehaviour {
 			TURN_FWD = true;
 
 			UpdateRotation = true;
-			an.SetBool ("RunForward", true);
+			Anim_SetMultiBool("RunForward", true);
 		}
 		if (!Input.GetKey (KeyCode.W) && an.GetBool ("RunForward")) {
-			an.SetBool ("RunForward", false);
+			Anim_SetMultiBool ("RunForward", false);
 		}
 
 		//Left straft
 		if (Input.GetKey (KeyCode.A)) {
 			if (an.GetBool("Shooting")){
-				an.SetBool ("StrafeLeft", true);
+				Anim_SetMultiBool ("StrafeLeft", true);
 				transform.position -= transform.right * Time.deltaTime * AimMoveSpeed;
 				TURN_LEFT = false;
 			} else {
 				TURN_LEFT = true;
-				an.SetBool ("RunForward", true);
+				Anim_SetMultiBool ("RunForward", true);
 				transform.position -= transform.right * Time.deltaTime * MoveSpeed;
 			}
 			
@@ -107,11 +122,11 @@ public class PlayerControl : MonoBehaviour {
 		else if (Input.GetKey (KeyCode.D)) {
 			if (an.GetBool("Shooting")){
 				TURN_RIGHT = false;
-				an.SetBool ("StrafeRight", true);
+				Anim_SetMultiBool ("StrafeRight", true);
 				transform.position += transform.right * Time.deltaTime * AimMoveSpeed;
 			} else {
 				TURN_RIGHT = true;
-				an.SetBool ("RunForward", true);
+				Anim_SetMultiBool ("RunForward", true);
 				transform.position += transform.right * Time.deltaTime * MoveSpeed;
 			}
 			
@@ -119,18 +134,18 @@ public class PlayerControl : MonoBehaviour {
 		}
 		/*
 		if (!Input.GetKey (KeyCode.D) && an.GetBool ("RunForward")) {
-			an.SetBool ("StrafeRight", false);
+			Anim_SetMultiBool ("StrafeRight", false);
 		}*/
 		
 		//backwards
 		if (Input.GetKey (KeyCode.S)) {
 			if (an.GetBool("Shooting")){
-				an.SetBool ("WalkBackward", true);
+				Anim_SetMultiBool ("WalkBackward", true);
 				transform.position -= transform.forward * Time.deltaTime * AimMoveSpeed;
 				TURN_BACK = false;
 			} else {
 				TURN_BACK = true;
-				an.SetBool ("RunForward", true);
+				Anim_SetMultiBool ("RunForward", true);
 				transform.position -= transform.forward * Time.deltaTime * MoveSpeed;
 			}
 
@@ -138,8 +153,8 @@ public class PlayerControl : MonoBehaviour {
 		}
 			
 		if (!Input.GetKey (KeyCode.W) && an.GetBool ("RunForward")) {
-			an.SetBool ("RunBackward", false);
-			an.SetBool ("WalkBackward", false);
+			Anim_SetMultiBool ("RunBackward", false);
+			Anim_SetMultiBool ("WalkBackward", false);
 		}
 		//End horrible, awful code
 
@@ -148,8 +163,8 @@ public class PlayerControl : MonoBehaviour {
 			UpdateRotation = true;
 			GunFlare.Play();
 			Gunshot.Play();
-			an.SetTrigger("Shoot");
-			an.SetBool ("Shooting", true);
+			Anim_SetMultiTrig("Shoot");
+			Anim_SetMultiBool ("Shooting", true);
 			ShootingTimer = 0.5f;
 		}
 		if (ShootingTimer > 0 && !ADS) {
@@ -160,7 +175,7 @@ public class PlayerControl : MonoBehaviour {
 			ShootingTimer -= Time.deltaTime;
 		}
 		if (an.GetBool ("Shooting") && ShootingTimer < 0)
-			an.SetBool ("Shooting", false);
+			Anim_SetMultiBool ("Shooting", false);
 
 		if (ADS) {
 			TURN_FWD = true;
@@ -199,6 +214,22 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 		cc.Move(movement);
+	}
+
+	float changetmp = 0f;
+
+	void LateUpdate()
+	{
+		changetmp = LookReference.transform.rotation.x - Arms.transform.rotation.x;
+
+		if (ADS || an.GetBool("Shooting")) { 
+			Arms.transform.RotateAround (Arms.transform.position, Chest.transform.right, (LookReference.transform.localRotation.x - Arms.transform.localRotation.x) * 40);
+		} else {
+			Arms.transform.RotateAround (Arms.transform.position, Chest.transform.right, ((0.12f) - Arms.transform.localRotation.x) * 20);
+		}	
+				
+			
+		
 	}
 }
 
