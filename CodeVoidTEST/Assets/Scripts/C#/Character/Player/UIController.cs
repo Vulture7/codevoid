@@ -9,7 +9,7 @@ public class UIController : MonoBehaviour {
     {
         if (Input.GetKeyDown(SettingValues.managerKey))
         {
-            manager.SetActive(!manager.activeSelf);
+            gameObject.GetComponent<InventoryManager>().menu = !gameObject.GetComponent<InventoryManager>().menu;
         }
     }
 

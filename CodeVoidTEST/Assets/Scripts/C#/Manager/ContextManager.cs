@@ -7,9 +7,6 @@ public class ContextManager : MonoBehaviour {
 
     public void Use()
     {
-        Item item = InventoryManager.currentSlot.GetComponent<SlotManager>().currentItem;
-
-        
     }
 
 }

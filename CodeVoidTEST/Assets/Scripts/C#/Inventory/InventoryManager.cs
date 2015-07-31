@@ -4,43 +4,78 @@ using System.Collections.Generic;
 
 public class InventoryManager : MonoBehaviour {
 
-    public static List<Item> inventory = new List<Item>();
-    public static GameObject currentSlot;
-    public static GameObject selectedSlotA;
-
-    public GameObject slotArea;
+    public static List<GameObject> inventory = new List<GameObject>();
+    public static int removedPos = -1;
+    public bool menu = false;
     public GameObject slot;
 
-    private int horzMax = 5;
-    private int vertMax = 5;
+    public static int horzMax = 5;
+    public static int vertMax = 5;
 
 	void Start () {
-        inventory.Add(new Item(0));
-        inventory.Add(new Item(0));
+        inventory.Add((GameObject)Instantiate(slot));
+        inventory.Add((GameObject)Instantiate(slot));
 
-        float xCord = -249;
-        float yCord = 161;
-        int z = 0;
-
-        for (int y = 0; y < vertMax; y++)
+        int x = 0;
+        int y = 0;
+        for (int i = 0 ; i < inventory.Count; i++)
         {
-            for (int x = 0; x < horzMax; x++)
+            if (x < horzMax)
             {
-                GameObject newSlot = (GameObject)Instantiate(slot);
-                RectTransform rect = newSlot.GetComponent<RectTransform>();
-                newSlot.name = "Slot_" + y.ToString() + "." + x.ToString();
-                newSlot.transform.SetParent(this.transform.parent);
-                if (z < inventory.Count)
-                {
-                    newSlot.GetComponent<SlotManager>().currentItem = inventory[z];
-                }
-                rect.localPosition = new Vector3(xCord, yCord);
-                xCord += 135;
-                z++;
+                inventory[i].GetComponent<Item>().loadInformation(0, i, x, y);
+                inventory[i].transform.SetParent(this.transform.parent);
+                x++;
             }
-            xCord = -249;
-            yCord -= 80;
-            z++;
+            else
+            {
+                x = 0;
+                if (y < vertMax)
+                    y++;
+                else
+                    break;
+            }
         }
 	}
+
+    void Update()
+    {
+        if (menu)
+        {
+            foreach (GameObject obj in inventory)
+            {
+                if (!obj.activeSelf)
+                    obj.SetActive(true);
+            }
+            int x = 0;
+            int y = 0;
+            if (removedPos != -1)
+            {
+                for (int i = 0; i < inventory.Count; i++)
+                {
+                    if (x < horzMax)
+                    {
+                        inventory[i].GetComponent<Item>().position = i;
+                        x++;
+                    }
+                    else
+                    {
+                        x = 0;
+                        if (y < vertMax)
+                            y++;
+                        else
+                            break;
+                    }
+                }
+                removedPos = -1;
+            }
+        }
+        else
+        {
+            foreach(GameObject obj in inventory)
+            {
+                if (obj.activeSelf)
+                    obj.SetActive(false);
+            }
+        }
+    }
 }
