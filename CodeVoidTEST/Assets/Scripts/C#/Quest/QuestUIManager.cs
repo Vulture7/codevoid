@@ -19,7 +19,7 @@ public class QuestUIManager : MonoBehaviour {
         if (quest.COMPLETED)
         {
             uiText.text = quest.ENDTEXT;
-            transform.GetChild(transform.childCount-1).transform.gameObject.SetActive(true);
+            transform.GetChild(transform.childCount-1).transform.gameObject.SetActive(false);
             transform.GetChild(transform.childCount-2).transform.gameObject.SetActive(false);
             gameObject.SetActive(true);
             return;

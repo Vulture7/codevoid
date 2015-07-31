@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SlotManager : MonoBehaviour, IPointerExitHandler, IPointerDownHandler, IPointerEnterHandler
+public class SlotManager : MonoBehaviour, IPointerExitHandler, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 {
 
     public Item currentItem, lastItem;
@@ -44,6 +44,17 @@ public class SlotManager : MonoBehaviour, IPointerExitHandler, IPointerDownHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (InventoryManager.selectedSlotA != null)
+            {
+                SwapItem(InventoryManager.selectedSlotA);
+            }
+            else { InventoryManager.selectedSlotA = gameObject; }
+
+            transform.GetChild(0).position = Input.mousePosition;
+        }
+
         if (eventData.button != PointerEventData.InputButton.Right) { return; }
         switch (currentItem.ID)
         {
@@ -55,6 +66,11 @@ public class SlotManager : MonoBehaviour, IPointerExitHandler, IPointerDownHandl
 
         InventoryManager.inventory.Remove(currentItem);
         currentItem = null;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
