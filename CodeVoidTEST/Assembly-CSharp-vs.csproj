@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\C#\Character\NPC\NpcManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Character\NPC\QuestNpcManager.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerCamera.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerControl.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerManager.cs" />

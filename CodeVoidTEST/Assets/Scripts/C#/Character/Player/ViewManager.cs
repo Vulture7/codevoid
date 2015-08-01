@@ -10,6 +10,12 @@ public class ViewManager : MonoBehaviour {
     public GameObject questUI;
     public GameObject questManager;
 
+    public GameObject NpcTargetedUI;
+    public Image npcIcon;
+    public Text npcName;
+    public Text npcLevel;
+    public Slider npcSlider;
+
     public Text interactText;
 
     void Update()
@@ -23,15 +29,23 @@ public class ViewManager : MonoBehaviour {
             lastHit = hit.transform;
             switch (hit.transform.tag)
             {
-                case "NPC":
+                case "QNPC":
                     if (hit.distance > 6f) { return; }
-                    if (Input.GetKeyDown(SettingValues.interactKey)) { questUI.GetComponent<QuestUIManager>().ShowQuest(lastHit.GetComponent<NpcManager>().quest); return; }
-                    hit.transform.GetComponent<NpcManager>().looking = true;
+                    if (Input.GetKeyDown(SettingValues.interactKey)) { questUI.GetComponent<QuestUIManager>().ShowQuest(lastHit.GetComponent<QuestNpcManager>().quest); return; }
+                    hit.transform.GetComponent<QuestNpcManager>().looking = true;
                     break;
                 case "Crate":
                     if (hit.distance > 6f) { return; }
                     if (Input.GetKeyDown(SettingValues.interactKey)) { return; }
                     hit.transform.GetComponent<CrateManager>().looking = true;
+                    break;
+                case "NPC":
+                    NpcManager npcManager = hit.transform.GetComponent<NpcManager>();
+                    npcIcon.sprite = npcManager.icon;
+                    npcName.text = npcManager.name;
+                    npcLevel.text = npcManager.level.ToString();
+                    npcSlider.value = npcManager.health;
+                    NpcTargetedUI.SetActive(true);
                     break;
                 default:
                     looking = false;
@@ -45,13 +59,16 @@ public class ViewManager : MonoBehaviour {
         {
             switch (lastLooked.tag)
             {
-                case "NPC":
-                    lastLooked.GetComponent<NpcManager>().looking = false;
-    
+                case "QNPC":
+                    lastLooked.GetComponent<QuestNpcManager>().looking = false;
+                    interactText.enabled = false;
                     break;
                 case "Crate":
                     lastLooked.GetComponent<CrateManager>().looking = false;
                     interactText.enabled = false;
+                    break;
+                case "NPC":
+                    NpcTargetedUI.SetActive(false);
                     break;
             }
         }
