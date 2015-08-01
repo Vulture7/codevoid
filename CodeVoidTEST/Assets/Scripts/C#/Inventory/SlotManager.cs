@@ -22,8 +22,8 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (eventData.button != PointerEventData.InputButton.Right && eventData.button != PointerEventData.InputButton.Left) { return; }
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            GetComponent<Item>().drag = false;
             InventoryHelper.swapItemsOrDrop(gameObject, GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory);
+            GetComponent<Item>().drag = false;
         }
         #endregion
     }

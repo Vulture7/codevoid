@@ -18,7 +18,7 @@ public class Item : MonoBehaviour {
     {
         this.position = position;
         this.inventoryManager = area;
-        GetComponent<RectTransform>().SetParent(area.transform, true);
+        GetComponent<RectTransform>().SetParent(area.GetComponent<InventoryManager>().Items.transform, true);
         switch (id)
         {
             case 0:
@@ -46,14 +46,14 @@ public class Item : MonoBehaviour {
 
     void Update()
     {
-        Debug.Log(nme + "-Position-Rect: " + gameObject.transform.position);
-        if ((lastPosition != position && !drag) || dragFail)
+        if (!drag)
         {
             updPosition();
             dragFail = false;
         }
         else if (drag)
         {
+            Debug.Log(position);
             InventoryHelper.followMouse(gameObject);
         }
     }
@@ -62,9 +62,6 @@ public class Item : MonoBehaviour {
     {
         float xPos = InventoryHelper.startX + (InventoryHelper.calcX(position) * InventoryHelper.offsetX);
         float yPos = InventoryHelper.startY + (InventoryHelper.calcY(position) * InventoryHelper.offsetY);
-        Debug.Log(nme + "-Position: " + position);
-        Debug.Log(nme + "-Position-X: " + xPos);
-        Debug.Log(nme + "-Position-Y: " + yPos);
         GetComponent<RectTransform>().localPosition = new Vector3(xPos, yPos);
         lastPosition = position;
     }

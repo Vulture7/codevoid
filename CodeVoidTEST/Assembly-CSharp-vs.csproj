@@ -134,6 +134,7 @@
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\changelog.cs" />
+     <Compile Include="Assets\Scripts\C#\Manager\ContextManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quest.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestUIManager.cs" />
@@ -166,10 +167,10 @@
  <HintPath>E:/Programme/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.Ionic.Zip.Reduced">
- <HintPath>E:/CodeVoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+ <HintPath>E:/CodeVoid Test/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.JsonFx">
- <HintPath>E:/CodeVoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
+ <HintPath>E:/CodeVoid Test/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>E:/Programme/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
