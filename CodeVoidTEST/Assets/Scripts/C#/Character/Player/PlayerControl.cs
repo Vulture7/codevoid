@@ -4,6 +4,8 @@ using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
 
+    public bool inManager;
+
 	Animator an;
 	Animator an_arm;
 	public Camera MainCamera;
@@ -63,6 +65,8 @@ public class PlayerControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        if (inManager) { return; }
+
 		TURN_RIGHT = false;
 		TURN_FWD   = false;
 		TURN_LEFT  = false;

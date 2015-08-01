@@ -6,7 +6,9 @@ using System.Collections;
  */
 
 public class PlayerCamera : MonoBehaviour {
-	
+
+    public GameObject player;
+
 	public float YSensitivity = 1.0f;
 	public float XSensitivity = 1.0f;
 
@@ -24,6 +26,7 @@ public class PlayerCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (player.GetComponent<PlayerControl>().inManager) { return; }
 
 		if (ModifyHorizontal) 
 			transform.Rotate (0f, -(mousex - Input.mousePosition.x) * XSensitivity, 0f);
@@ -48,7 +51,7 @@ public class PlayerCamera : MonoBehaviour {
 				                       transform.localRotation.z,
 				                       transform.localRotation.w);
 			}
-		
+
 		mousex = Input.mousePosition.x;
 		mousey = Input.mousePosition.y;
 	}

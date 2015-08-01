@@ -5,38 +5,38 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour {
 
     public enum ItemType { Consume,Stat,Weapon,ERROR }
-    public GameObject itemManager;
-    public int position;
-    public bool Drag = false;
+    public GameObject inventoryManager;
+    public bool drag = false;
+    public bool dragFail = false;
 
     private int id;
-    private string name, lore;
+    private string nme, lore;
     private ItemType type;
-    private Image image;
-    private float xCord = -249;
-    private float yCord = 161;
-    private float xWidth = 135;
-    private float yHeight = -80;
-    private int lastPos = -1;
+    private int position = -1, lastPosition = -1;
 
-    public void loadInformation(int id, int position, int x, int y)
+    public void loadData(int id, GameObject area, int position)
     {
         this.position = position;
-        RectTransform rect = gameObject.GetComponent<RectTransform>();
-        rect.localPosition = new Vector3(xCord + (x * xWidth), yCord + (y * yHeight));
-        lastPos = position;
+        this.inventoryManager = area;
+        GetComponent<RectTransform>().SetParent(area.transform, true);
         switch (id)
         {
             case 0:
-                name = "Med Syringer";
+                nme = "Med Syringer";
                 lore = "Used for healing.";
                 type = ItemType.Consume;
-
-                gameObject.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Items/Consume/Resource_MedSyringer.2d");
-                Debug.Log(gameObject.GetComponentInChildren<Image>().sprite.ToString());
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Consume/Resource_MedSyringer-Blue.2d");
+                Debug.Log(GetComponent<Image>().sprite.ToString());
+                break;
+            case 1:
+                nme = "Med Syringer";
+                lore = "Used for healing.";
+                type = ItemType.Consume;
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Consume/Resource_MedSyringer-Red.2d");
+                Debug.Log(GetComponent<Image>().sprite.ToString());
                 break;
             default:
-                name = "ERROR";
+                nme = "ERROR";
                 lore = "Unknown itemID: " + id.ToString();
                 type = ItemType.ERROR;
                 break;
@@ -44,28 +44,36 @@ public class Item : MonoBehaviour {
         this.id = id;
     }
 
-    void Update() 
+    void Update()
     {
-        if (Drag)
+        Debug.Log(nme + "-Position-Rect: " + gameObject.transform.position);
+        if ((lastPosition != position && !drag) || dragFail)
         {
-            var mousePos = Input.mousePosition;
-            var wantedPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-            gameObject.GetComponent<RectTransform>().position = wantedPos;
+            updPosition();
+            dragFail = false;
         }
-        else if (lastPos != position)
+        else if (drag)
         {
-            int y = position / InventoryManager.horzMax;
-            int x = position > InventoryManager.horzMax ? position - (y * InventoryManager.horzMax): position;
-            gameObject.GetComponent<RectTransform>().localPosition = new Vector3(xCord + (x * xWidth), yCord + (y * yHeight));
-            lastPos = position;
+            InventoryHelper.followMouse(gameObject);
         }
+    }
+
+    void updPosition()
+    {
+        float xPos = InventoryHelper.startX + (InventoryHelper.calcX(position) * InventoryHelper.offsetX);
+        float yPos = InventoryHelper.startY + (InventoryHelper.calcY(position) * InventoryHelper.offsetY);
+        Debug.Log(nme + "-Position: " + position);
+        Debug.Log(nme + "-Position-X: " + xPos);
+        Debug.Log(nme + "-Position-Y: " + yPos);
+        GetComponent<RectTransform>().localPosition = new Vector3(xPos, yPos);
+        lastPosition = position;
     }
 
     public string Name
     {
         get
         {
-            return name;
+            return nme;
         }
     }
 
@@ -85,6 +93,18 @@ public class Item : MonoBehaviour {
         }
     }
 
+    public int Position
+    {
+        get
+        {
+            return position;
+        }
+        set
+        {
+            position = value;
+        }
+    }
+
     public ItemType Type
     {
         get { 
@@ -92,11 +112,11 @@ public class Item : MonoBehaviour {
         }
     }
 
-    public Image Icon
+    public Sprite Image
     {
         get
         {
-            return gameObject.GetComponentInChildren<Image>();
+            return gameObject.GetComponent<Image>().sprite;
         }
     }
 

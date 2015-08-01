@@ -51,15 +51,17 @@
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerControl.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\RaycastTest.cs" />
-     <Compile Include="Assets\Scripts\C#\Character\Player\UIController.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\ViewManager.cs" />
-     <Compile Include="Assets\Scripts\C#\Env\ItemSpawner.cs" />
+     <Compile Include="Assets\Scripts\C#\Env\Spawners\ItemSpawner.cs" />
      <Compile Include="Assets\Scripts\C#\Env\Storage\CrateManager.cs" />
-     <Compile Include="Assets\Scripts\C#\Env\Target.cs" />
+     <Compile Include="Assets\Scripts\C#\Env\Target\Target.cs" />
+     <Compile Include="Assets\Scripts\C#\Inventory\InventoryHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\ItemManager.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\SlotManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Items\Weapons\Guns\BulletSpeed.cs" />
+     <Compile Include="Assets\Scripts\C#\Items\Weapons\Guns\FireGun.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\AIPath.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\NavmeshController.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\Seeker.cs" />
@@ -132,12 +134,12 @@
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\changelog.cs" />
-     <Compile Include="Assets\Scripts\C#\Manager\ContextManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quest.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestUIManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quests\Example_Quest.cs" />
      <Compile Include="Assets\Scripts\C#\Settings\SettingValues.cs" />
+     <Compile Include="Assets\Scripts\C#\UI\UIController.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\RoomSize.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\Singleton.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\WorldCreator.cs" />
@@ -164,10 +166,10 @@
  <HintPath>E:/Programme/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.Ionic.Zip.Reduced">
- <HintPath>E:/Dropbox/Anderes/Meine Projekte/Unity/CodeVoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+ <HintPath>E:/CodeVoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.JsonFx">
- <HintPath>E:/Dropbox/Anderes/Meine Projekte/Unity/CodeVoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
+ <HintPath>E:/CodeVoid/CodeVoidTEST/Assets/Scripts/C#/Library's/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>E:/Programme/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

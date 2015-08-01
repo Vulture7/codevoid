@@ -14,6 +14,7 @@ public class ViewManager : MonoBehaviour {
 
     void Update()
     {
+        #region OnLook
         RaycastHit hit;
         bool looking = true;
 
@@ -22,9 +23,6 @@ public class ViewManager : MonoBehaviour {
             lastHit = hit.transform;
             switch (hit.transform.tag)
             {
-                case "Target":
-                    if (Input.GetMouseButtonDown(0)) { lastLooked.GetComponent<Target>().Damage(35); }
-                    break;
                 case "NPC":
                     if (hit.distance > 6f) { return; }
                     if (Input.GetKeyDown(SettingValues.interactKey)) { questUI.GetComponent<QuestUIManager>().ShowQuest(lastHit.GetComponent<NpcManager>().quest); return; }
@@ -40,14 +38,16 @@ public class ViewManager : MonoBehaviour {
                     break;
             }
         }
+        #endregion
 
+        #region LastLooked
         if (lastLooked != null && !looking)
         {
             switch (lastLooked.tag)
             {
                 case "NPC":
                     lastLooked.GetComponent<NpcManager>().looking = false;
-                    interactText.enabled = false;
+    
                     break;
                 case "Crate":
                     lastLooked.GetComponent<CrateManager>().looking = false;
@@ -56,6 +56,7 @@ public class ViewManager : MonoBehaviour {
             }
         }
         lastLooked = lastHit;
+        #endregion
     }
 
 
