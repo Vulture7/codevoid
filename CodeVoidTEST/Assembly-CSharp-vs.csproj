@@ -59,6 +59,8 @@
      <Compile Include="Assets\Scripts\C#\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\ItemManager.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\SlotManager.cs" />
+     <Compile Include="Assets\Scripts\C#\Items\Weapons\Guns\BulletSpeed.cs" />
+     <Compile Include="Assets\Scripts\C#\Items\Weapons\Guns\FireGun.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\AIPath.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\NavmeshController.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Core\AI\Seeker.cs" />

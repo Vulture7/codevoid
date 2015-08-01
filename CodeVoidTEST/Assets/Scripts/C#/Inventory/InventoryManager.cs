@@ -6,7 +6,6 @@ public class InventoryManager : MonoBehaviour {
 
     public static List<Item> inventory = new List<Item>();
     public static GameObject currentSlot;
-    public static GameObject selectedSlotA;
 
     public GameObject slotArea;
     public GameObject slot;

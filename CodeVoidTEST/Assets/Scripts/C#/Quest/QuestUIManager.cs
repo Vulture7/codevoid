@@ -9,6 +9,7 @@ public class QuestUIManager : MonoBehaviour {
     public Text uiText;
 
     public GameObject questManager;
+    public GameObject player;
 
     private Quest quest;
 
@@ -28,23 +29,25 @@ public class QuestUIManager : MonoBehaviour {
         //Quest exists, remove the accept button.
         if (questManager.GetComponent<QuestManager>().GetQuest(quest.UID) != null) { transform.GetChild(transform.childCount -2).transform.gameObject.SetActive(false); transform.GetChild(transform.childCount-1).transform.gameObject.SetActive(true); }
         else { transform.GetChild(transform.childCount-2).transform.gameObject.SetActive(true); transform.GetChild(transform.childCount-1).transform.gameObject.SetActive(true); }
+        player.GetComponent<PlayerControl>().inManager = true;
         gameObject.SetActive(true);
     }
 
     public void Accept()
     {
         questManager.GetComponent<QuestManager>().AddQuest(quest);
-        gameObject.SetActive(false);
+        Close();
     }
 
     public void Decline()
     {
         if (questManager.GetComponent<QuestManager>().GetQuest(quest.UID) != null) { questManager.GetComponent<QuestManager>().RemoveQuest(quest.UID); }
-        gameObject.SetActive(false);
+        Close();
     }
 
     public void Close()
     {
+        player.GetComponent<PlayerControl>().inManager = false;
         gameObject.SetActive(false);
     }
 
