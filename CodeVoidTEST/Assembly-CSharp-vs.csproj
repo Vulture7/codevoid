@@ -51,11 +51,10 @@
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerControl.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\RaycastTest.cs" />
-     <Compile Include="Assets\Scripts\C#\Character\Player\UIController.cs" />
      <Compile Include="Assets\Scripts\C#\Character\Player\ViewManager.cs" />
-     <Compile Include="Assets\Scripts\C#\Env\ItemSpawner.cs" />
+     <Compile Include="Assets\Scripts\C#\Env\Spawners\ItemSpawner.cs" />
      <Compile Include="Assets\Scripts\C#\Env\Storage\CrateManager.cs" />
-     <Compile Include="Assets\Scripts\C#\Env\Target.cs" />
+     <Compile Include="Assets\Scripts\C#\Env\Target\Target.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\ItemManager.cs" />
@@ -132,12 +131,12 @@
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Library&apos;s\AstarPathfindingProject\changelog.cs" />
-     <Compile Include="Assets\Scripts\C#\Manager\ContextManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quest.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\QuestUIManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quests\Example_Quest.cs" />
      <Compile Include="Assets\Scripts\C#\Settings\SettingValues.cs" />
+     <Compile Include="Assets\Scripts\C#\UI\UIController.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\RoomSize.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\Singleton.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\WorldCreator.cs" />
