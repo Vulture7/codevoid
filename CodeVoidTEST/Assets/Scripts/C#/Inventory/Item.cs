@@ -5,7 +5,7 @@ using System;
 
 public class Item : MonoBehaviour {
 
-    public enum ItemType { Consume,Stat,Weapon,ERROR, Head, Chest, Pants, Shoes, Backpack, Extra }
+    public enum ItemType { Consume,Stat,Weapon,ERROR, Head, Chest, Pants, Shoes, Backpack, Extra, Hack }
     public GameObject inventoryManager;
     public bool drag = false, context = false;
     public bool dragFail = false;
@@ -32,57 +32,55 @@ public class Item : MonoBehaviour {
                 nme = "Med Syringer";
                 lore = "Used for healing.";
                 type = ItemType.Consume;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Consume/Resource_MedSyringer-Blue.2d");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Consume/Resource_MedSyringer-Blue.2d");   
                 break;
             case 1:
                 nme = "Med Syringer";
                 lore = "Used for healing.";
                 type = ItemType.Consume;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Consume/Resource_MedSyringer-Red.2d");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Consume/Resource_MedSyringer-Red.2d");      
                 break;
             case 2:
                 nme = "Machine Gun";
                 lore = "Used for killing.";
                 type = ItemType.Weapon;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Weapons/machinegun_test");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Weapons/machinegun_test");  
                 break;
             case 3:
                 nme = "Helmet";
                 lore = "Used for Protecting.";
                 type = ItemType.Head;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Armor/helmet_test");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Armor/helmet_test");           
                 break;
             case 4:
                 nme = "Chest";
                 lore = "Used for Protecting.";
                 type = ItemType.Chest;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Armor/chestplate_test");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Armor/chestplate_test");              
                 break;
             case 5:
                 nme = "Pants";
                 lore = "Used for Protecting.";
                 type = ItemType.Pants;
                 GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Armor/pants_test");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
                 break;
             case 6:
                 nme = "Shoes";
                 lore = "Used for Protecting.";
                 type = ItemType.Shoes;
                 GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Armor/shoes_test");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
                 break;
             case 7:
                 nme = "Backpack";
                 lore = "Used for Carrying stuff.";
                 type = ItemType.Backpack;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Backpacks/backpack_test");
-                Debug.Log(GetComponent<Image>().sprite.ToString());
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Backpacks/backpack_test");  
+                break;
+            case 8:
+                nme = "Cracker";
+                lore = "Used for hacking past locks.";
+                type = ItemType.Weapon;
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Hack/cracker");
                 break;
             case 8:
                 nme = "Machine Gun2";

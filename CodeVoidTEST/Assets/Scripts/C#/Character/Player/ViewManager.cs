@@ -7,13 +7,12 @@ public class ViewManager : MonoBehaviour {
     private Transform lastLooked;
     private Transform lastHit;
 
-    public GameObject questUI;
-    public GameObject questManager;
-
     public Text interactText;
 
     void Update()
     {
+        //Item itemInHands = transform.parent.GetComponent<PlayerManager>().itemInHands;
+
         #region OnLook
         RaycastHit hit;
         bool looking = true;
@@ -21,16 +20,15 @@ public class ViewManager : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit))
         {
             lastHit = hit.transform;
+            Debug.Log(hit.transform.tag);
             switch (hit.transform.tag)
             {
                 case "NPC":
                     if (hit.distance > 6f) { return; }
-                    if (Input.GetKeyDown(SettingValues.interactKey)) { questUI.GetComponent<QuestUIManager>().ShowQuest(lastHit.GetComponent<NpcManager>().quest); return; }
                     hit.transform.GetComponent<NpcManager>().looking = true;
                     break;
                 case "Crate":
                     if (hit.distance > 6f) { return; }
-                    if (Input.GetKeyDown(SettingValues.interactKey)) { return; }
                     hit.transform.GetComponent<CrateManager>().looking = true;
                     break;
                 default:
@@ -47,7 +45,7 @@ public class ViewManager : MonoBehaviour {
             {
                 case "NPC":
                     lastLooked.GetComponent<NpcManager>().looking = false;
-    
+                    interactText.enabled = false;
                     break;
                 case "Crate":
                     lastLooked.GetComponent<CrateManager>().looking = false;

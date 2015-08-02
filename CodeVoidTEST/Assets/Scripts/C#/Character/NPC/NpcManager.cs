@@ -8,6 +8,7 @@ public class NpcManager : MonoBehaviour {
     public bool looking = false;
 
     public Quest quest;
+    public GameObject questUI;
 
     void Start()
     {
@@ -17,5 +18,9 @@ public class NpcManager : MonoBehaviour {
     void Update()
     {
         if (looking) { interactText.enabled = true; }
+        if (looking && Input.GetKeyDown(SettingValues.interactKey))
+        {
+            questUI.GetComponent<QuestUIManager>().ShowQuest(quest);
+        }
     }
 }

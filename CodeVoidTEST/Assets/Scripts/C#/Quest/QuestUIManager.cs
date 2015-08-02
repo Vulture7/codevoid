@@ -13,6 +13,8 @@ public class QuestUIManager : MonoBehaviour {
 
     private Quest quest;
 
+
+
     public void ShowQuest(Quest quest)
     {
         this.quest = quest;
