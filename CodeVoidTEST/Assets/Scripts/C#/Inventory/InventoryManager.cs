@@ -62,7 +62,7 @@ public class InventoryManager : MonoBehaviour {
         item.GetComponent<Item>().loadData(0, gameObject, "15");
         inventory.Add(item);
         item = (GameObject)Instantiate(slot);
-        item.GetComponent<Item>().loadData(1, gameObject, "16");
+        item.GetComponent<Item>().loadData(8, gameObject, "16");
         inventory.Add(item);
 	}
 
@@ -96,4 +96,19 @@ public class InventoryManager : MonoBehaviour {
                 break;
         }
     }
+
+    public Item GetEquipmentItemAtPosition(string position)
+    {
+        foreach (GameObject item in equipment)
+        {
+            Item i = item.GetComponent<Item>();
+            if (i.Position == position)
+            {
+                return i;
+            }
+        }
+        Debug.LogWarning("Equiptment Item not found @ position: " + position);
+        return null;
+    }
+    
 }
