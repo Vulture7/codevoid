@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UIController : MonoBehaviour {
+public class UIController : MonoBehaviour
+{
 
     public GameObject manager;
     public GameObject player;
