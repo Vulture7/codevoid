@@ -10,18 +10,22 @@ public class Item : MonoBehaviour {
     public bool drag = false, context = false;
     public bool dragFail = false;
     public int invType = 0;
+    public Vector3 contextPos;
 
     private int id;
     private string nme, lore;
     private ItemType type;
-    private string position = "";
+    private string position;
+
+    #region GuiData
+    private float buttonX = 120f, buttonY = 20;
+    #endregion
 
     public void loadData(int id, GameObject area, string position)
     {
         this.position = position;
         this.inventoryManager = area;
         GetComponent<RectTransform>().SetParent(area.GetComponent<InventoryManager>().Items.transform, true);
-
         switch (id)
         {
             case 0:
@@ -80,6 +84,13 @@ public class Item : MonoBehaviour {
                 GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Backpacks/backpack_test");
                 Debug.Log(GetComponent<Image>().sprite.ToString());
                 break;
+            case 8:
+                nme = "Machine Gun2";
+                lore = "Used for killing.";
+                type = ItemType.Weapon;
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Weapons/machinegun2_test");
+                Debug.Log(GetComponent<Image>().sprite.ToString());
+                break;
             default:
                 nme = "ERROR";
                 lore = "Unknown itemID: " + id.ToString();
@@ -91,110 +102,170 @@ public class Item : MonoBehaviour {
 
     void Update()
     {
-
+        if (position == "17" || position == "primary")
+            Debug.Log(position);
         if (!drag)
         {
+            updPosition();
             if (invType != inventoryManager.GetComponent<InventoryManager>().inventoryType)
                 gameObject.SetActive(false);
-
-            updPosition();
-            dragFail = false;
         }
         else if (drag)
         {
             InventoryHelper.followMouse(gameObject);
         }
+    }
+
+    void OnGUI()
+    {
         if (context)
         {
-            Vector3 position = GetComponent<RectTransform>().position;
-            Debug.Log(position);
-            GUI.Box(new Rect(position.x, position.y, 220, 180), "");
+            float posX = contextPos.x;
+            float posY = Screen.height - contextPos.y;
 
-            if (GUI.Button(new Rect(position.x, position.y, 80, 20), "Drop"))
+            if (type == ItemType.Shoes || type == ItemType.Head || type == ItemType.Chest || type == ItemType.Pants || type == ItemType.Backpack)
             {
-                Drop();
+                GUI.Box(new Rect(posX, posY, buttonX, (buttonY * 2)), "");
+                if (GUI.Button(new Rect(posX, posY, buttonX, buttonY), "Equip"))
+                {
+                    Equip();
+                }
+                if (GUI.Button(new Rect(posX, posY + buttonY, buttonX, buttonY), "Drop"))
+                {
+                    Drop();
+                }
             }
-
-            if (GUI.Button(new Rect(position.x, position.y + 25, 80, 20), "Cancel"))
+            else if (type == ItemType.Weapon)
             {
-                context = !context;
+                GUI.Box(new Rect(posX, posY, buttonX, (buttonY * 3)), "");
+                if (GUI.Button(new Rect(posX, posY, buttonX, buttonY), "Equip Primary"))
+                {
+                    EquipPrim();
+                }
+                if (GUI.Button(new Rect(posX, posY + buttonY, buttonX, buttonY), "Equip Secondary"))
+                {
+                    EquipSec();
+                }
+                if (GUI.Button(new Rect(posX, posY + (buttonY * 2), buttonX, buttonY), "Drop"))
+                {
+                    Drop();
+                }
+            }
+            else
+            {
+                GUI.Box(new Rect(posX, posY, buttonX, buttonY), "");
+                if (GUI.Button(new Rect(posX, posY, buttonX, buttonY), "Drop"))
+                {
+                    Drop();
+                }
             }
         }
     }
 
     void updPosition()
     {
-        invType = 0;
-        try
+        float posX = 0, posY = 0;
+        switch(position)
         {
-            Convert.ToInt32(position);
-            invType = 0;
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+            case "10":
+            case "11":
+            case "12":
+            case "13":
+            case "14":
+            case "15":
+            case "16":
+            case "17":
+            case "18":
+            case "19":
+                invType = 0;
+                posX = InventoryHelper.startX + (InventoryHelper.calcX(position) * InventoryHelper.offsetX);
+                posY = InventoryHelper.startY + (InventoryHelper.calcY(position) * InventoryHelper.offsetY);
+                break;
+
+            case "head":
+                posX = InventoryHelper.headPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.headPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
+
+            case "chest":
+                posX = InventoryHelper.chestPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.chestPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
+
+            case "pants":
+                posX = InventoryHelper.pantsPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.pantsPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
+
+            case "shoes":
+                posX = InventoryHelper.shoesPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.shoesPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
+
+            case "backpack":
+                posX = InventoryHelper.backpackPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.backpackPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
+
+            case "extra":
+                posX = InventoryHelper.extraPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.extraPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
+
+            case "primary":
+                posX = InventoryHelper.primaryPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.primaryPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
+
+            case "secondary":
+                posX = InventoryHelper.secondaryPosX + (InventoryHelper.widthX / 2);
+                posY = InventoryHelper.secondaryPosY + (InventoryHelper.widthY / 2);
+                invType = 1 ;
+                break;
         }
-        catch
-        {
-            invType = 1;
-        }
+        GetComponent<RectTransform>().localPosition = new Vector3(posX, posY);
+    }
 
-        if (inventoryManager.GetComponent<InventoryManager>().inventoryType == 0 && invType == 0)
-        {
-            float xPos = InventoryHelper.startX + (InventoryHelper.calcX(position) * InventoryHelper.offsetX);
-            float yPos = InventoryHelper.startY + (InventoryHelper.calcY(position) * InventoryHelper.offsetY);
-            GetComponent<RectTransform>().localPosition = new Vector3(xPos, yPos);
-        }
-        else if (inventoryManager.GetComponent<InventoryManager>().inventoryType == 1 && invType == 1)
-        {
-            float posX = 0, posY = 0;
-            switch (position)
-            {
-                case "primary":
-                    posX = InventoryHelper.primaryPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.primaryPosY + (InventoryHelper.widthY / 2);
-                    break;
+    void Equip()
+    {
+        InventoryHelper.swapEqOrPlaceContext(gameObject, null, inventoryManager.GetComponent<InventoryManager>().equipment);
+        context = false;
+    }
 
-                case "secondary":
-                    posX = InventoryHelper.secondaryPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.secondaryPosY + (InventoryHelper.widthY / 2);
-                    break;
+    void EquipPrim()
+    {
+        InventoryHelper.swapEqOrPlaceContext(gameObject, "primary", inventoryManager.GetComponent<InventoryManager>().equipment);
+        context = false;
+    }
 
-                case "backpack":
-                    posX = InventoryHelper.backpackPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.backpackPosY + (InventoryHelper.widthY / 2);
-                    break;
-
-                case "extra":
-                    posX = InventoryHelper.extraPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.extraPosY + (InventoryHelper.widthY / 2);
-                    break;
-
-                case "head":
-                    posX = InventoryHelper.headPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.headPosY + (InventoryHelper.widthY / 2);
-                    break;
-
-                case "chest":
-                    posX = InventoryHelper.chestPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.chestPosY + (InventoryHelper.widthY / 2);
-                    break;
-
-                case "pants":
-                    posX = InventoryHelper.pantsPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.pantsPosY + (InventoryHelper.widthY / 2);
-                    break;
-
-                case "shoes":
-                    posX = InventoryHelper.shoesPosX + (InventoryHelper.widthX / 2);
-                    posY = InventoryHelper.shoesPosY + (InventoryHelper.widthY / 2);
-                    break;
-            }
-
-            GetComponent<RectTransform>().localPosition = new Vector3(posX, posY);
-        }
+    void EquipSec()
+    {
+        InventoryHelper.swapEqOrPlaceContext(gameObject, "secondary", inventoryManager.GetComponent<InventoryManager>().equipment);
+        context = false;
     }
 
     void Drop()
     {
         inventoryManager.GetComponent<InventoryManager>().inventory.Remove(gameObject);
         Destroy(gameObject);
+        context = false;
     }
 
     public string Name

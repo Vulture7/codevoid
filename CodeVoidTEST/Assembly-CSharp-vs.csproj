@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\C#\Env\Spawners\ItemSpawner.cs" />
      <Compile Include="Assets\Scripts\C#\Env\Storage\CrateManager.cs" />
      <Compile Include="Assets\Scripts\C#\Env\Target\Target.cs" />
+     <Compile Include="Assets\Scripts\C#\Inventory\Equipment.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\InventoryHelper.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\C#\Inventory\Item.cs" />

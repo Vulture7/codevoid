@@ -9,21 +9,31 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         #region
         if (eventData.button != PointerEventData.InputButton.Right && eventData.button != PointerEventData.InputButton.Left) { return; }
-        if (eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left && !GetComponent<Item>().context)
         {
             GetComponent<Item>().drag = true;
+            InventoryHelper.dragging = gameObject;
         }
-        else if (eventData.button == PointerEventData.InputButton.Right)
+        else if (eventData.button == PointerEventData.InputButton.Right && !GetComponent<Item>().context)
         {
-            GetComponent<Item>().context = true;
+            if (!GetComponent<Item>().drag)
+            {
+                GetComponent<Item>().context = true;
+                GetComponent<Item>().contextPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+            }
+        }
+        foreach (GameObject obj in GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory)
+        {
+            if (obj != gameObject)
+                obj.GetComponent<Item>().context = false;
         }
         #endregion
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Item item = GetComponent<Item>();
         #region
+        Item item = GetComponent<Item>();
         if (eventData.button != PointerEventData.InputButton.Right && eventData.button != PointerEventData.InputButton.Left) { return; }
         if (eventData.button == PointerEventData.InputButton.Left)
         {
@@ -32,29 +42,28 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
             {
                 if (GetComponent<Item>().invType != 0)
                 {
-                    GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().equipment.Remove(gameObject);
+                    InventoryHelper.SetEqSwitch(item.Position, null, GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().equipment);
                     GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(gameObject);
                 }
-                item.dragFail = InventoryHelper.swapItemsOrDrop(gameObject, item.inventoryManager.GetComponent<InventoryManager>().inventory);
+                InventoryHelper.swapItemsOrDrop(gameObject, item.inventoryManager.GetComponent<InventoryManager>().inventory);
             }
             else if (type == 1)
             {
-                string dropTo = InventoryHelper.checkEqPos(gameObject, true);
-                if (dropTo != "")
-                {
-                    item.Position = dropTo;
-                    GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().equipment.Add(gameObject);
-                    GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(gameObject);
-                }
-                else
-                    item.dragFail = true;
+                InventoryHelper.swapEqOrPlace(gameObject, item.inventoryManager.GetComponent<InventoryManager>().equipment);
             }
             item.drag = false;
+            InventoryHelper.dragging = null;
         }
         #endregion
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+    }
+
+    public void changeParent(GameObject newParent)
+    {
+        GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(gameObject);
+        GetComponent<Item>().inventoryManager = newParent;
     }
 }

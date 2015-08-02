@@ -5,6 +5,7 @@ using System;
 
 public class InventoryHelper
 {
+    public static GameObject dragging = null;
 
     #region Item Pos
     static private int horzMax = 5, vertMax = 4;
@@ -128,45 +129,150 @@ public class InventoryHelper
             }
         }
         #endregion
-        return "";
+        return obj.GetComponent<Item>().Position;
     }
 
-    public static bool swapEqOrPlace(GameObject movingObj, List<GameObject> list)
+    public static void swapEqOrPlace(GameObject movingObj, Equipment equipment)
     {
-        int position = -1;
+        string position = "-1";
         GameObject swapItem = null;
 
-        foreach (GameObject obj in list)
-        {
-            for (int y = 0; y < vertMax; y++)
-            {
-                for (int x = 0; x < horzMax; x++)
-                {
-                    if (checkObjPos(movingObj, x, y, true) && position == -1)
-                    {
-                        position = x + (y * horzMax);
-                    }
+        position = checkEqPos(movingObj, true);
 
-                    if (Convert.ToInt32(obj.GetComponent<Item>().Position) == position)
-                    {
-                        swapItem = obj;
-                    }
-                }
-            }
-        }
+        swapItem = GetEqSwitch(position, equipment);
 
-        if (swapItem != null)
+        if (swapItem != null && position != "-1")
         {
             swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
-            movingObj.GetComponent<Item>().Position = position.ToString();
+            movingObj.GetComponent<Item>().Position = position;
+
+            SetEqSwitch(position, movingObj, equipment);
+            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
+            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(swapItem);
         }
-        else
+        else if (position != "-1")
         {
-            movingObj.GetComponent<Item>().dragFail = true;
+            movingObj.GetComponent<Item>().Position = position;
+            SetEqSwitch(position, movingObj, equipment);
+            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
+        }
+    }
+
+    public static GameObject GetEqSwitch(string position, Equipment equipment)
+    {
+        GameObject item = null;
+        switch (position)
+        {
+            case "primary":
+                item = equipment.Primary;
+                break;
+            case "secondary":
+                item = equipment.Secondary;
+                break;
+            case "head":
+                item = equipment.Head;
+                break;
+            case "chest":
+                item = equipment.Chest;
+                break;
+            case "pants":
+                item = equipment.Pants;
+                break;
+            case "shoes":
+                item = equipment.Shoes;
+                break;
+            case "backpack":
+                item = equipment.Backpack;
+                break;
+            case "extra":
+                item = equipment.Extra;
+                break;
         }
 
+        return item;
+    }
 
-        return false;
+    public static void SetEqSwitch(string position, GameObject item, Equipment equipment)
+    {
+        switch (position)
+        {
+            case "primary":
+                equipment.Primary = item;
+                break;
+            case "secondary":
+                equipment.Secondary = item;
+                break;
+            case "head":
+                equipment.Head = item;
+                break;
+            case "chest":
+                equipment.Chest = item;
+                break;
+            case "pants":
+                equipment.Pants = item;
+                break;
+            case "shoes":
+                equipment.Shoes = item;
+                break;
+            case "backpack":
+                equipment.Backpack = item;
+                break;
+            case "extra":
+                equipment.Extra = item;
+                break;
+        }
+    }
+
+    public static void swapEqOrPlaceContext(GameObject movingObj, string primsec, Equipment equipment)
+    {
+        string position = "-1";
+        GameObject swapItem = null;
+
+        switch (movingObj.GetComponent<Item>().Type)
+        {
+            case Item.ItemType.Weapon:
+                if (primsec != null)
+                    position = primsec;
+                else
+                    position = "primary";
+                break;
+            case Item.ItemType.Head:
+                position = "head";
+                break;
+            case Item.ItemType.Chest:
+                position = "chest";
+                break;
+            case Item.ItemType.Pants:
+                position = "pants";
+                break;
+            case Item.ItemType.Shoes:
+                position = "shoes";
+                break;
+            case Item.ItemType.Backpack:
+                position = "backpack";
+                break;
+            case Item.ItemType.Extra:
+                position = "extra";
+                break;
+        }
+
+        swapItem = GetEqSwitch(position, equipment);
+
+        if (swapItem != null && position != "-1")
+        {
+            swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
+            movingObj.GetComponent<Item>().Position = position;
+
+            SetEqSwitch(position, movingObj, equipment);
+            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
+            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(swapItem);
+        }
+        else if (position != "-1")
+        {
+            movingObj.GetComponent<Item>().Position = position;
+            SetEqSwitch(position, movingObj, equipment);
+            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
+        }
     }
 
     public static bool checkObjPos(GameObject obj, float posX, float posY, bool local)
@@ -186,9 +292,9 @@ public class InventoryHelper
         return false;
     }
 
-    public static bool swapItemsOrDrop(GameObject movingObj, List<GameObject> list)
+    public static void swapItemsOrDrop(GameObject movingObj, List<GameObject> list)
     {
-        int position = -1;
+        string position = "-1";
         GameObject swapItem = null;
 
         foreach (GameObject obj in list)
@@ -197,12 +303,12 @@ public class InventoryHelper
             {
                 for (int x = 0; x < horzMax; x++)
                 {
-                    if (checkObjPos(movingObj, x, y, true) && position == -1)
+                    if (checkObjPos(movingObj, x, y, true) && position == "-1")
                     {
-                        position = x + (y * horzMax);
+                        position = (x + (y * horzMax)).ToString();
                     }
 
-                    if (Convert.ToInt32(obj.GetComponent<Item>().Position) == position)
+                    if (obj.GetComponent<Item>().Position == position)
                     {
                         swapItem = obj;
                     }
@@ -210,18 +316,15 @@ public class InventoryHelper
             }
         }
 
-        if (swapItem != null)
+        if (swapItem != null && position != "-1")
         {
             swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
             movingObj.GetComponent<Item>().Position = position.ToString();
         }
-        else
+        else if(position != "-1")
         {
-            movingObj.GetComponent<Item>().dragFail = true;
+            movingObj.GetComponent<Item>().Position = position.ToString();
         }
-
-
-        return false;
     }
 
     public static void followMouse(GameObject obj)

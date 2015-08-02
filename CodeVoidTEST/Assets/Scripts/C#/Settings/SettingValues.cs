@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SettingValues : MonoBehaviour {
-
+public class SettingValues : MonoBehaviour 
+{
     public static string managerKey = "e";
-    public static string managerKeyEquipment = "c";
-    public static string managerKeyInventory = "b";
+    public static string chestKey = "y";
+    public static string inventoryKeyEquipment = "c";
+    public static string inventoryKeyInventory = "b";
     public static string interactKey = "f";
-
 }
