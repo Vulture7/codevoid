@@ -9,6 +9,11 @@ public class PlayerManager : MonoBehaviour {
     public Item itemInHands;
     public Item itemOnBack;
 
+    void Start()
+    {
+        itemInHands = null;
+    }
+
     void Update()
     {
         #region Doesn't work when in UI
@@ -19,12 +24,14 @@ public class PlayerManager : MonoBehaviour {
                 //Run animation and wait for finish
                 itemInHands = inventory.GetComponent<InventoryManager>().GetEquipmentItemAtPosition("primary");
                 itemOnBack = inventory.GetComponent<InventoryManager>().GetEquipmentItemAtPosition("secondary");
+                Debug.Log(itemInHands.Name);
             }
             if (Input.GetKeyDown(SettingValues.secondaryKey))
             {
                 //Run animation and wait for finish
                 itemInHands = inventory.GetComponent<InventoryManager>().GetEquipmentItemAtPosition("secondary");
                 itemOnBack = inventory.GetComponent<InventoryManager>().GetEquipmentItemAtPosition("primary");
+                Debug.Log(itemInHands.Name);
             }
         }
         #endregion

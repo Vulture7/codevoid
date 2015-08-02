@@ -27,14 +27,22 @@ public class KeypadUIManager : MonoBehaviour {
             if (hackTimeLeft < 0.1) { hacking = false; code = neededCode; text.text = neededCode; return; }
             text.text = GetRandText();
             hackTimeLeft -= Time.deltaTime;
-            return;
         }
         Item i = player.GetComponent<PlayerManager>().itemInHands;
+        Debug.Log(i.Name);
+
+        if (i == null) { hackable = false; hacking = false; transform.GetChild(transform.childCount - 1).gameObject.SetActive(false); return; }
         switch (i.ID)
         {
             case 8:
+                if (hacking) { return; }
                 hackable = true;
                 transform.GetChild(transform.childCount - 1).gameObject.SetActive(true);
+                break;
+            default:
+                hacking = false;
+                hackable = false;
+                transform.GetChild(transform.childCount - 1).gameObject.SetActive(false);
                 break;
         }
     }
