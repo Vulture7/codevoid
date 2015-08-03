@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
+public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler
 {
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -37,19 +37,27 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         if (eventData.button != PointerEventData.InputButton.Right && eventData.button != PointerEventData.InputButton.Left) { return; }
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            int type = item.inventoryManager.GetComponent<InventoryManager>().inventoryType;
-            if (type == 0)
+            int inventoryType = item.inventoryManager.GetComponent<InventoryManager>().inventoryType;
+            InventoryManager.StorageType type = item.inventoryManager.GetComponent<InventoryManager>().type;
+            if (type == InventoryManager.StorageType.Chest)
             {
-                if (GetComponent<Item>().invType != 0)
-                {
-                    InventoryHelper.SetEqSwitch(item.Position, null, GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().equipment);
-                    GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(gameObject);
-                }
                 InventoryHelper.swapItemsOrDrop(gameObject, item.inventoryManager.GetComponent<InventoryManager>().inventory);
             }
-            else if (type == 1)
+            else
             {
-                InventoryHelper.swapEqOrPlace(gameObject, item.inventoryManager.GetComponent<InventoryManager>().equipment);
+                if (inventoryType == 0)
+                {
+                    if (GetComponent<Item>().invType != 0)
+                    {
+                        InventoryHelper.SetEqSwitch(item.Position, null, GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().equipment);
+                        GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(gameObject);
+                    }
+                    InventoryHelper.swapItemsOrDrop(gameObject, item.inventoryManager.GetComponent<InventoryManager>().inventory);
+                }
+                else if (inventoryType == 1)
+                {
+                    InventoryHelper.swapEqOrPlace(gameObject, item.inventoryManager.GetComponent<InventoryManager>().equipment);
+                }
             }
             item.drag = false;
             InventoryHelper.dragging = null;
@@ -59,11 +67,29 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Item item = GetComponent<Item>();
+        Text name = item.inventoryManager.GetComponent<InventoryManager>().itemName.GetComponent<Text>();
+        Text lore = item.inventoryManager.GetComponent<InventoryManager>().itemLore.GetComponent<Text>();
+
+        name.text = item.Name;
+        lore.text = item.Lore;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Item item = GetComponent<Item>();
+        Text name = item.inventoryManager.GetComponent<InventoryManager>().itemName.GetComponent<Text>();
+        Text lore = item.inventoryManager.GetComponent<InventoryManager>().itemLore.GetComponent<Text>();
+
+        name.text = "";
+        lore.text = "";
     }
 
     public void changeParent(GameObject newParent)
     {
         GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(gameObject);
+        GetComponent<RectTransform>().SetParent(newParent.transform);
         GetComponent<Item>().inventoryManager = newParent;
+        GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(gameObject);
     }
 }

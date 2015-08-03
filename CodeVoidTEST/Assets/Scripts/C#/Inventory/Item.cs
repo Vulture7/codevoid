@@ -23,6 +23,7 @@ public class Item : MonoBehaviour {
 
     public void loadData(int id, GameObject area, string position)
     {
+        GetComponent<RectTransform>().sizeDelta = new Vector2(InventoryHelper.widthX, InventoryHelper.widthY);
         this.position = position;
         this.inventoryManager = area;
         GetComponent<RectTransform>().SetParent(area.GetComponent<InventoryManager>().Items.transform, true);
@@ -74,13 +75,7 @@ public class Item : MonoBehaviour {
                 nme = "Backpack";
                 lore = "Used for Carrying stuff.";
                 type = ItemType.Backpack;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Backpacks/backpack_test");  
-                break;
-            case 8:
-                nme = "Cracker";
-                lore = "Used for hacking past locks.";
-                type = ItemType.Weapon;
-                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Hack/cracker");
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Backpacks/backpack_test");
                 break;
             case 8:
                 nme = "Machine Gun2";
@@ -88,6 +83,12 @@ public class Item : MonoBehaviour {
                 type = ItemType.Weapon;
                 GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Weapons/machinegun2_test");
                 Debug.Log(GetComponent<Image>().sprite.ToString());
+                break;
+            case 9:
+                nme = "Cracker";
+                lore = "Used for hacking past locks.";
+                type = ItemType.Weapon;
+                GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Items/Hack/cracker");
                 break;
             default:
                 nme = "ERROR";
@@ -100,8 +101,6 @@ public class Item : MonoBehaviour {
 
     void Update()
     {
-        if (position == "17" || position == "primary")
-            Debug.Log(position);
         if (!drag)
         {
             updPosition();
@@ -162,7 +161,11 @@ public class Item : MonoBehaviour {
 
     void updPosition()
     {
+        if (position == "primary" && invType == 0)
+            Debug.Log("FU");
         float posX = 0, posY = 0;
+        invType = 1;
+
         switch(position)
         {
             case "0":
@@ -189,54 +192,52 @@ public class Item : MonoBehaviour {
                 posX = InventoryHelper.startX + (InventoryHelper.calcX(position) * InventoryHelper.offsetX);
                 posY = InventoryHelper.startY + (InventoryHelper.calcY(position) * InventoryHelper.offsetY);
                 break;
+        }
+        
+        if (invType == 1)
+        {
+            switch (position)
+            {
+                case "head":
+                    posX = InventoryHelper.headPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.headPosY + (InventoryHelper.widthY / 2);
+                    break;
 
-            case "head":
-                posX = InventoryHelper.headPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.headPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
+                case "chest":
+                    posX = InventoryHelper.chestPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.chestPosY + (InventoryHelper.widthY / 2);
+                    break;
 
-            case "chest":
-                posX = InventoryHelper.chestPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.chestPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
+                case "pants":
+                    posX = InventoryHelper.pantsPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.pantsPosY + (InventoryHelper.widthY / 2);
+                    break;
 
-            case "pants":
-                posX = InventoryHelper.pantsPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.pantsPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
+                case "shoes":
+                    posX = InventoryHelper.shoesPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.shoesPosY + (InventoryHelper.widthY / 2);
+                    break;
 
-            case "shoes":
-                posX = InventoryHelper.shoesPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.shoesPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
+                case "backpack":
+                    posX = InventoryHelper.backpackPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.backpackPosY + (InventoryHelper.widthY / 2);
+                    break;
 
-            case "backpack":
-                posX = InventoryHelper.backpackPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.backpackPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
+                case "extra":
+                    posX = InventoryHelper.extraPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.extraPosY + (InventoryHelper.widthY / 2);
+                    break;
 
-            case "extra":
-                posX = InventoryHelper.extraPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.extraPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
+                case "primary":
+                    posX = InventoryHelper.primaryPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.primaryPosY + (InventoryHelper.widthY / 2);
+                    break;
 
-            case "primary":
-                posX = InventoryHelper.primaryPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.primaryPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
-
-            case "secondary":
-                posX = InventoryHelper.secondaryPosX + (InventoryHelper.widthX / 2);
-                posY = InventoryHelper.secondaryPosY + (InventoryHelper.widthY / 2);
-                invType = 1 ;
-                break;
+                case "secondary":
+                    posX = InventoryHelper.secondaryPosX + (InventoryHelper.widthX / 2);
+                    posY = InventoryHelper.secondaryPosY + (InventoryHelper.widthY / 2);
+                    break;
+            }
         }
         GetComponent<RectTransform>().localPosition = new Vector3(posX, posY);
     }

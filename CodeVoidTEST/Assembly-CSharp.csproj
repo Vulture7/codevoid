@@ -141,6 +141,7 @@
      <Compile Include="Assets\Scripts\C#\Quest\QuestUIManager.cs" />
      <Compile Include="Assets\Scripts\C#\Quest\Quests\Example_Quest.cs" />
      <Compile Include="Assets\Scripts\C#\Settings\SettingValues.cs" />
+     <Compile Include="Assets\Scripts\C#\UI\Keypad\KeypadUIManager.cs" />
      <Compile Include="Assets\Scripts\C#\UI\UIController.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\RoomSize.cs" />
      <Compile Include="Assets\Scripts\C#\WorldGen1\Singleton.cs" />

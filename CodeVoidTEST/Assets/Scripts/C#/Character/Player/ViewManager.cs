@@ -20,7 +20,6 @@ public class ViewManager : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit))
         {
             lastHit = hit.transform;
-            Debug.Log(hit.transform.tag);
             switch (hit.transform.tag)
             {
                 case "NPC":

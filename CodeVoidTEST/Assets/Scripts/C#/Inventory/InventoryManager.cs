@@ -11,16 +11,25 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
     public List<GameObject> inventory;
     public Equipment equipment;
 
-    public GameObject slot, Items;
-    public StorageType type;
-    public int inventoryType;
+    public GameObject slot = null, Items = null, CharacterPreview = null, canvas = null, player = null, camera = null, itemdesc = null, itemName = null, itemLore = null;
+    public StorageType type = StorageType.Inventory;
+    public int inventoryType = 0;
+
+    private Vector3 lastMousePos = new Vector3(0, 0);
+    private bool dragging = false, dragChar = false;
+    private float rotationSpeed = 300.0F;
 
     void Start()
     {
-        type = StorageType.Inventory;
+        GetComponentInParent<RectTransform>().localPosition = GetComponent<RectTransform>().sizeDelta; 
         equipment = new Equipment();
         inventory = new List<GameObject>();
-        inventoryType = 0;
+        if (camera != null)
+            camera.GetComponent<Camera>().orthographicSize = canvas.GetComponent<RectTransform>().position.y;
+        if (itemdesc != null)
+            itemdesc.GetComponent<RectTransform>().localPosition = new Vector3(InventoryHelper.ItemDescX, InventoryHelper.ItemDescY);
+        if (itemName != null)
+            itemName.GetComponent<RectTransform>().offsetMin = new Vector2(0, InventoryHelper.NameBottom);
 
         GameObject item = (GameObject)Instantiate(slot);
         item.GetComponent<Item>().loadData(0, gameObject, "0");
@@ -71,7 +80,7 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
         item.GetComponent<Item>().loadData(0, gameObject, "15");
         inventory.Add(item);
         item = (GameObject)Instantiate(slot);
-        item.GetComponent<Item>().loadData(1, gameObject, "16");
+        item.GetComponent<Item>().loadData(9, gameObject, "16");
         inventory.Add(item);
         item = (GameObject)Instantiate(slot);
         item.GetComponent<Item>().loadData(8, gameObject, "17");
@@ -80,6 +89,18 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
 
     void Update()
     {
+        updManager();
+        if (dragChar)
+        {
+            float angle = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+            player.GetComponent<Transform>().Rotate(new Vector3(0, -angle, 0));
+        }
+        if (dragging)
+        {
+            Vector3 difference = Input.mousePosition - lastMousePos;
+            gameObject.GetComponent<RectTransform>().position += difference;
+            lastMousePos = Input.mousePosition;
+        }
         switch (inventoryType)
         {
             case 0:
@@ -88,6 +109,8 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
                     if (!obj.GetComponent<Item>().drag)
                         obj.SetActive(true);
                 }
+                if (CharacterPreview != null)
+                    CharacterPreview.SetActive(false);
                 break;
 
             case 1:
@@ -107,7 +130,39 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
                     equipment.Pants.SetActive(true);
                 if (equipment.Shoes != null && !equipment.Shoes.GetComponent<Item>().drag)
                     equipment.Shoes.SetActive(true);
+                if (CharacterPreview != null)
+                    CharacterPreview.SetActive(true);
                 break;
+        }
+    }
+
+    private void setCharacter()
+    {
+        if (CharacterPreview != null)
+            CharacterPreview.transform.GetChild(0).GetComponent<RectTransform>().localPosition = new Vector3(InventoryHelper.PreviewX, InventoryHelper.PreviewY);
+        if (player != null)
+        {
+            player.transform.localPosition = new Vector3(0, InventoryHelper.PlayerY, -800);
+            player.transform.localScale = new Vector3(InventoryHelper.PlayerScalX, InventoryHelper.PlayerScalY, InventoryHelper.PlayerScalZ);
+        }
+
+        Debug.Log(CharacterPreview.transform.GetChild(0).GetComponent<RectTransform>().localPosition);
+
+    }
+
+    void updManager()
+    {
+        if (type == StorageType.Chest)
+        {
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Chest");
+        }
+        else if (inventoryType == 0)
+        {
+            GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Bag1");
+        }
+        else if (this.inventoryType == 1)
+        {
+            GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Bag2");
         }
     }
 
@@ -115,34 +170,55 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
     {
         this.inventoryType = inventoryType;
 
-        if (type == StorageType.Chest)
-        {
-            GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Chest");
-        }
-        else if (inventoryType == 0)
-        {
-            GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Bag1");
-        }
-        else if (inventoryType == 1)
-        {
-            GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Bag2");
-        }
+        if (CharacterPreview != null)                
+            CharacterPreview.SetActive(true);
+        if (inventoryType == 1)
+            setCharacter();
+
+        updManager();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            dragging = true;
+            lastMousePos = Input.mousePosition;
+        }
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (inventoryType == 1)
+            {
+                Vector3 pos = gameObject.GetComponent<RectTransform>().position;
+                Vector3 position = Input.mousePosition;
+                if (position.x > pos.x + InventoryHelper.charPosX && position.x < pos.x + InventoryHelper.charPosEndX && position.y < pos.y + InventoryHelper.charPosY && position.y > pos.y + InventoryHelper.charPosEndY)
+                {
+                    dragChar = true;
+                }
+            }
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            dragging = false;
+        }
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            dragChar = false;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (InventoryHelper.dragging != null && !inventory.Contains(InventoryHelper.dragging))
         {
-            Debug.Log("WOOOOOOW");
-            InventoryHelper.dragging.GetComponent<SlotManager>().changeParent(gameObject);
+            if (eventData.pointerEnter != InventoryHelper.dragging.GetComponent<Item>().inventoryManager)
+            {
+                InventoryHelper.dragging.GetComponent<SlotManager>().changeParent(gameObject);
+            }
         }
     }
 }

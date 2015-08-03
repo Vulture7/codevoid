@@ -9,37 +9,54 @@ public class InventoryHelper
 
     #region Item Pos
     static private int horzMax = 5, vertMax = 4;
-    static private float xCord = -397, yCord = 180;
-    static private float xOffset = 130.5f, yOffset = -108.5f;
-    static private float xWidth = 80, yHeight = 65;
+    static private float xCord = Screen.width / 2.57f * -1, yCord = Screen.height / 3f;
+    static private float xOffset = Screen.width / 7.8f, yOffset = Screen.height / 5f * -1;
+    static private float xWidth = Screen.width / 24.5f, yHeight = Screen.height / 16.5f;
+    #endregion
+
+    #region Player Preview
+    static private float camX = Screen.width / 5.7f, camY = Screen.height / 3.5f;
+    static private float previewX = -92f / 1400 * Screen.width, previewY = 10f / 600 * Screen.height;
+    static private float playerY = -250f / 600 * Screen.height;
+    static private float playerScalX = 300f / 600 * Screen.height, playerScalY = 180f / 600 * Screen.height, playerScalZ = 300f / 600 * Screen.height;
+    #endregion
+
+    #region ItemDescription
+    static private float itemDescX = 642f / 1906 * Screen.width, itemDescY = 319f / 987 * Screen.height;
+    static private float nameBottom = 800 / 1906 * Screen.width, loreTop = 200f / 987 * Screen.height, fontLore = 40 / 1906 * Screen.width;
     #endregion
 
     #region Armor Pos
-    static public float headPosX = -437, headPosEndX = -357;
-    static public float headPosY = 147.5f, headPosEndY = 212.5f;
+    static public float headPosX = xCord - xWidth / 2, headPosEndX = xCord + xWidth / 2;
+    static public float headPosEndY = yCord + yHeight / 2, headPosY = yCord - yHeight / 2;
 
-    static public float chestPosX = -437, chestPosEndX = -357;
-    static public float chestPosY = 39f, chestPosEndY = 104f;
+    static public float chestPosX = xCord - xWidth / 2, chestPosEndX = xCord + xWidth / 2;
+    static public float chestPosEndY = yCord + yOffset + yHeight / 2, chestPosY = yCord + yOffset - yHeight / 2;
 
-    static public float pantsPosX = -437, pantsPosEndX = -357;
-    static public float pantsPosY = -69.5f, pantsPosEndY = -4.5f;
+    static public float pantsPosX = xCord - xWidth / 2, pantsPosEndX = xCord + xWidth / 2;
+    static public float pantsPosEndY = yCord + yOffset * 2 + yHeight / 2, pantsPosY = yCord + yOffset * 2 - yHeight / 2;
 
-    static public float shoesPosX = -437, shoesPosEndX = -357;
-    static public float shoesPosY = -178f, shoesPosEndY = -113f;
+    static public float shoesPosX = xCord - xWidth / 2, shoesPosEndX = xCord + xWidth / 2;
+    static public float shoesPosEndY = yCord + yOffset * 3 + yHeight / 2, shoesPosY = yCord + yOffset * 3 - yHeight / 2;
     #endregion
 
     #region Weapon, Backpack & Extra Pos
-    static public float primaryPosX = 85, primaryPosEndX = 165;
-    static public float primaryPosY = 147.5f, primaryPosEndY = 212.5f;
+    static public float primaryPosX = xCord + xOffset * 4 - xWidth / 2, primaryPosEndX = xCord + xOffset * 4 + xWidth / 2;
+    static public float primaryPosEndY = yCord + yHeight / 2, primaryPosY = yCord - yHeight / 2;
 
-    static public float secondaryPosX = 85, secondaryPosEndX = 165;
-    static public float secondaryPosY = 39f, secondaryPosEndY = 104f;
+    static public float secondaryPosX = xCord + xOffset * 4 - xWidth / 2, secondaryPosEndX = xCord + xOffset * 4 + xWidth / 2;
+    static public float secondaryPosEndY = yCord + yOffset + yHeight / 2, secondaryPosY = yCord + yOffset - yHeight / 2;
 
-    static public float backpackPosX = 85, backpackPosEndX = 165;
-    static public float backpackPosY = -69.5f, backpackPosEndY = -4.5f;
+    static public float backpackPosX = xCord + xOffset * 4 - xWidth / 2, backpackPosEndX = xCord + xOffset * 4 + xWidth / 2;
+    static public float backpackPosEndY = yCord + yOffset * 2 + yHeight / 2, backpackPosY = yCord + yOffset * 2 - yHeight / 2;
 
-    static public float extraPosX = 85, extraPosEndX = 165;
-    static public float extraPosY = -178f, extraPosEndY = -113f;
+    static public float extraPosX = xCord + xOffset * 4 - xWidth / 2, extraPosEndX = xCord + xOffset * 4 + xWidth / 2;
+    static public float extraPosEndY = yCord + yOffset * 3 + yHeight / 2, extraPosY = yCord + yOffset * 3 - yHeight / 2;
+    #endregion
+
+    #region ChracterDragPos
+    static public float charPosX = xCord + xOffset - xWidth / 2, charPosEndX = xCord + xOffset * 3 + xWidth / 2;
+    static public float charPosY = yCord + yHeight / 2, charPosEndY = yCord + yOffset * 3 - yHeight / 2;
     #endregion
 
     public static string checkEqPos(GameObject obj, bool local)
@@ -53,6 +70,7 @@ public class InventoryHelper
         #region Weapon Check
         if (obj.GetComponent<Item>().Type == Item.ItemType.Weapon)
         {
+            Debug.Log(position + ":" + primaryPosX + ":" + primaryPosY + ":" + primaryPosEndX + ":" + primaryPosEndY);
             if ((position.x > primaryPosX && position.x < primaryPosEndX) && (position.y > primaryPosY && position.y < primaryPosEndY))
             {
                 return "primary";
@@ -129,7 +147,7 @@ public class InventoryHelper
             }
         }
         #endregion
-        return obj.GetComponent<Item>().Position;
+        return "-1";
     }
 
     public static void swapEqOrPlace(GameObject movingObj, Equipment equipment)
@@ -138,13 +156,14 @@ public class InventoryHelper
         GameObject swapItem = null;
 
         position = checkEqPos(movingObj, true);
-
         swapItem = GetEqSwitch(position, equipment);
 
         if (swapItem != null && position != "-1")
         {
             swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
             movingObj.GetComponent<Item>().Position = position;
+            swapItem.GetComponent<Item>().invType = 0;
+            movingObj.GetComponent<Item>().invType = 1;
 
             SetEqSwitch(position, movingObj, equipment);
             movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
@@ -155,6 +174,7 @@ public class InventoryHelper
             movingObj.GetComponent<Item>().Position = position;
             SetEqSwitch(position, movingObj, equipment);
             movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
+            movingObj.GetComponent<Item>().invType = 1;
         }
     }
 
@@ -260,18 +280,20 @@ public class InventoryHelper
 
         if (swapItem != null && position != "-1")
         {
-            swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
-            movingObj.GetComponent<Item>().Position = position;
-
-            SetEqSwitch(position, movingObj, equipment);
             movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
             movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(swapItem);
+            swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
+            movingObj.GetComponent<Item>().Position = position;
+            SetEqSwitch(position, movingObj, equipment);
+            swapItem.GetComponent<Item>().invType = 0;
+            movingObj.GetComponent<Item>().invType = 1;
         }
         else if (position != "-1")
         {
             movingObj.GetComponent<Item>().Position = position;
             SetEqSwitch(position, movingObj, equipment);
             movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
+            movingObj.GetComponent<Item>().invType = 1;
         }
     }
 
@@ -320,10 +342,13 @@ public class InventoryHelper
         {
             swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
             movingObj.GetComponent<Item>().Position = position.ToString();
+            swapItem.GetComponent<Item>().invType = 0;
+            movingObj.GetComponent<Item>().invType = 0;
         }
         else if(position != "-1")
         {
             movingObj.GetComponent<Item>().Position = position.ToString();
+            movingObj.GetComponent<Item>().invType = 0;
         }
     }
 
@@ -421,6 +446,110 @@ public class InventoryHelper
         get
         {
             return yHeight;
+        }
+    }
+
+    public static float CamX
+    {
+        get
+        {
+            return camX;
+        }
+    }
+
+    public static float CamY
+    {
+        get
+        {
+            return camY;
+        }
+    }
+
+    public static float PreviewX
+    {
+        get
+        {
+            return previewX;
+        }
+    }
+
+    public static float PreviewY
+    {
+        get
+        {
+            return previewY;
+        }
+    }
+
+    public static float PlayerY
+    {
+        get
+        {
+            return playerY;
+        }
+    }
+
+    public static float PlayerScalX
+    {
+        get
+        {
+            return playerScalX;
+        }
+    }
+
+    public static float PlayerScalY
+    {
+        get
+        {
+            return playerScalY;
+        }
+    }
+
+    public static float PlayerScalZ
+    {
+        get
+        {
+            return playerScalZ;
+        }
+    }
+
+    public static float ItemDescX
+    {
+        get
+        {
+            return itemDescX;
+        }
+    }
+
+    public static float ItemDescY
+    {
+        get
+        {
+            return itemDescY;
+        }
+    }
+
+    public static float NameBottom
+    {
+        get
+        {
+            return nameBottom;
+        }
+    }
+
+    public static float LoreTop
+    {
+        get
+        {
+            return loreTop;
+        }
+    }
+
+    public static float FontLore
+    {
+        get
+        {
+            return fontLore;
         }
     }
 }
