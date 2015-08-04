@@ -29,7 +29,7 @@ public class KeypadUIManager : MonoBehaviour {
             hackTimeLeft -= Time.deltaTime;
         }
         Item i = player.GetComponent<PlayerManager>().itemInHands;
-        Debug.Log(i.Name);
+
 
         if (i == null) { hackable = false; hacking = false; transform.GetChild(transform.childCount - 1).gameObject.SetActive(false); return; }
         switch (i.ID)
