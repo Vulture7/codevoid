@@ -21,12 +21,20 @@ public class CrateManager : MonoBehaviour {
 
     void Update()
     {
-        if (looking) { interactText.enabled = true; }
+        //if (looking) { interactText.enabled = true; }
         if (Input.GetKeyDown(SettingValues.interactKey) && looking)
         {
             Debug.Log(locked);
-            if (locked) { keypad.GetComponent<KeypadUIManager>().neededCode = code; keypad.GetComponent<KeypadUIManager>().crate = gameObject; keypad.SetActive(true); player.GetComponent<PlayerControl>().inManager = true; }
-            else { Debug.Log("Crate unlocked! Show UI!"); }
+            if (locked) 
+            { 
+                keypad.GetComponent<KeypadUIManager>().neededCode = code; 
+                keypad.GetComponent<KeypadUIManager>().crate = gameObject; 
+                keypad.SetActive(true); player.GetComponent<PlayerControl>().inManager = true; 
+            }
+            else 
+            { 
+                Debug.Log("Crate unlocked! Show UI!"); 
+            }
         }
     }
 

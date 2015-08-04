@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
     public List<GameObject> inventory;
     public Equipment equipment;
 
-    public GameObject slot = null, Items = null, CharacterPreview = null, canvas = null, player = null, camera = null, itemdesc = null, itemName = null, itemLore = null;
+    public GameObject slot = null, Items = null, CharacterPreview = null, canvas = null, player = null, camera = null, itemName = null, itemLore = null;
     public StorageType type = StorageType.Inventory;
     public int inventoryType = 0;
 
@@ -26,10 +26,10 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
         inventory = new List<GameObject>();
         if (camera != null)
             camera.GetComponent<Camera>().orthographicSize = canvas.GetComponent<RectTransform>().position.y;
-        if (itemdesc != null)
-            itemdesc.GetComponent<RectTransform>().localPosition = new Vector3(InventoryHelper.ItemDescX, InventoryHelper.ItemDescY);
         if (itemName != null)
-            itemName.GetComponent<RectTransform>().offsetMin = new Vector2(0, InventoryHelper.NameBottom);
+            itemName.GetComponent<RectTransform>().localPosition = new Vector3(InventoryHelper.ItemNameX, InventoryHelper.ItemNameY);
+        if (itemLore != null)
+            itemLore.GetComponent<RectTransform>().localPosition = new Vector3(InventoryHelper.ItemLoreX, InventoryHelper.ItemLoreY);
 
         GameObject item = (GameObject)Instantiate(slot);
         item.GetComponent<Item>().loadData(0, gameObject, "0");
@@ -164,6 +164,14 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
         {
             GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Bag2");
         }
+        else if (inventoryType == 2)
+        {
+            GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Bag3");
+        }
+        else if (this.inventoryType == 3)
+        {
+            GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Images/Inventory/Inventory-Background-Bag4");
+        }
     }
 
     public void setVisible(int inventoryType)
@@ -180,7 +188,12 @@ public class InventoryManager : MonoBehaviour, IPointerDownHandler, IPointerEnte
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        int clickOnSwitch = InventoryHelper.checkClickOnSwitch(Input.mousePosition, GetComponent<RectTransform>().position);
+        if (eventData.button == PointerEventData.InputButton.Left && clickOnSwitch != -1)
+        {
+            inventoryType = clickOnSwitch;
+        }
+        else if (eventData.button == PointerEventData.InputButton.Left)
         {
             dragging = true;
             lastMousePos = Input.mousePosition;

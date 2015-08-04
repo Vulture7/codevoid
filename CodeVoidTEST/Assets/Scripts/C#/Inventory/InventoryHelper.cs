@@ -21,9 +21,17 @@ public class InventoryHelper
     static private float playerScalX = 300f / 600 * Screen.height, playerScalY = 180f / 600 * Screen.height, playerScalZ = 300f / 600 * Screen.height;
     #endregion
 
+    #region TypeSwitch Preview
+    static private float typeX = 185f / 1400 * Screen.width - xWidth / 2, typeXEnd = 185f / 1400 * Screen.width + xWidth / 2;
+    static private float type1Y = 25f / 600 * Screen.height + yHeight / 2, type1YEnd = 25f / 600 * Screen.height - yHeight / 2;
+    static private float type2Y = -15f / 600 * Screen.height + yHeight / 2, type2YEnd = -15f / 600 * Screen.height - yHeight / 2;
+    static private float type3Y = -55f / 600 * Screen.height + yHeight / 2, type3YEnd = -55f / 600 * Screen.height - yHeight / 2;
+    static private float type4Y = -95f / 600 * Screen.height + yHeight / 2, type4YEnd = -95f / 600 * Screen.height - yHeight / 2;
+    #endregion
+
     #region ItemDescription
-    static private float itemDescX = 642f / 1906 * Screen.width, itemDescY = 319f / 987 * Screen.height;
-    static private float nameBottom = 800 / 1906 * Screen.width, loreTop = 200f / 987 * Screen.height, fontLore = 40 / 1906 * Screen.width;
+    static private float itemNameX = 470f / 1400 * Screen.width, itemNameY = 270f / 600 * Screen.height;
+    static private float itemLoreX = 470f / 1400 * Screen.width, itemLoreY = 175f / 600 * Screen.height;
     #endregion
 
     #region Armor Pos
@@ -281,18 +289,20 @@ public class InventoryHelper
         if (swapItem != null && position != "-1")
         {
             movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
-            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(swapItem);
+            swapItem.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(swapItem);
             swapItem.GetComponent<Item>().Position = movingObj.GetComponent<Item>().Position;
+            swapItem.GetComponent<Item>().invType = 0;
+
             movingObj.GetComponent<Item>().Position = position;
             SetEqSwitch(position, movingObj, equipment);
-            swapItem.GetComponent<Item>().invType = 0;
             movingObj.GetComponent<Item>().invType = 1;
         }
         else if (position != "-1")
         {
+            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
+
             movingObj.GetComponent<Item>().Position = position;
             SetEqSwitch(position, movingObj, equipment);
-            movingObj.GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Remove(movingObj);
             movingObj.GetComponent<Item>().invType = 1;
         }
     }
@@ -385,6 +395,24 @@ public class InventoryHelper
         }
     }
 
+    public static int checkClickOnSwitch(Vector2 mousePosition, Vector2 windowPos)
+    {
+        Vector2 position = mousePosition - windowPos;
+        if (position.x > typeX && position.x < typeXEnd)
+        {
+            if (position.y < type1Y && position.y > type1YEnd)
+                return 0;
+            if (position.y < type2Y && position.y > type2YEnd)
+                return 1;
+            if (position.y < type3Y && position.y > type3YEnd)
+                return 2;
+            if (position.y < type4Y && position.y > type4YEnd)
+                return 3;
+        }
+        return -1;
+    }
+
+    #region Get Functions
     public static int maxX
     {
         get
@@ -513,43 +541,116 @@ public class InventoryHelper
         }
     }
 
-    public static float ItemDescX
+    public static float ItemNameX
     {
         get
         {
-            return itemDescX;
+            return itemNameX;
         }
     }
 
-    public static float ItemDescY
+    public static float ItemNameY
     {
         get
         {
-            return itemDescY;
+            return itemNameY;
         }
     }
 
-    public static float NameBottom
+    public static float ItemLoreX
     {
         get
         {
-            return nameBottom;
+            return itemLoreX;
         }
     }
 
-    public static float LoreTop
+    public static float ItemLoreY
     {
         get
         {
-            return loreTop;
+            return itemLoreY;
         }
     }
 
-    public static float FontLore
+    public static float TypeX
     {
         get
         {
-            return fontLore;
+            return typeX;
         }
     }
+
+    public static float TypeXEnd
+    {
+        get
+        {
+            return typeXEnd;
+        }
+    }
+
+    public static float Type1Y
+    {
+        get
+        {
+            return type1Y;
+        }
+    }
+
+    public static float Type1YEnd
+    {
+        get
+        {
+            return type1YEnd;
+        }
+    }
+
+    public static float Type2Y
+    {
+        get
+        {
+            return type2Y;
+        }
+    }
+
+    public static float Type2YEnd
+    {
+        get
+        {
+            return type2YEnd;
+        }
+    }
+
+    public static float Type3Y
+    {
+        get
+        {
+            return type3Y;
+        }
+    }
+
+    public static float Type3YEnd
+    {
+        get
+        {
+            return type3YEnd;
+        }
+    }
+
+    public static float Type4Y
+    {
+        get
+        {
+            return type4Y;
+        }
+    }
+
+    public static float Type4YEnd
+    {
+        get
+        {
+            return type4YEnd;
+        }
+    }
+#endregion
 }

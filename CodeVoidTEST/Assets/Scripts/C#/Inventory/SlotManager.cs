@@ -9,17 +9,21 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     {
         #region
         if (eventData.button != PointerEventData.InputButton.Right && eventData.button != PointerEventData.InputButton.Left) { return; }
-        if (eventData.button == PointerEventData.InputButton.Left && !GetComponent<Item>().context)
+        if (!GetComponent<Item>().context)
         {
-            GetComponent<Item>().drag = true;
-            InventoryHelper.dragging = gameObject;
-        }
-        else if (eventData.button == PointerEventData.InputButton.Right && !GetComponent<Item>().context)
-        {
-            if (!GetComponent<Item>().drag)
+            if (eventData.button == PointerEventData.InputButton.Right)
             {
-                GetComponent<Item>().context = true;
-                GetComponent<Item>().contextPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+                if (!GetComponent<Item>().drag && GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().type != InventoryManager.StorageType.Chest)
+                {
+                    GetComponent<Item>().context = true;
+                    GetComponent<Item>().contextPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+                }
+            }
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                GetComponent<Item>().dragTime = 0f;
+                GetComponent<Item>().drag = true;
+                InventoryHelper.dragging = gameObject;
             }
         }
         foreach (GameObject obj in GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory)
@@ -35,32 +39,36 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
         #region
         Item item = GetComponent<Item>();
         if (eventData.button != PointerEventData.InputButton.Right && eventData.button != PointerEventData.InputButton.Left) { return; }
-        if (eventData.button == PointerEventData.InputButton.Left)
+        if (!item.context)
         {
-            int inventoryType = item.inventoryManager.GetComponent<InventoryManager>().inventoryType;
-            InventoryManager.StorageType type = item.inventoryManager.GetComponent<InventoryManager>().type;
-            if (type == InventoryManager.StorageType.Chest)
+            if (eventData.button == PointerEventData.InputButton.Left && item.drag)
             {
-                InventoryHelper.swapItemsOrDrop(gameObject, item.inventoryManager.GetComponent<InventoryManager>().inventory);
-            }
-            else
-            {
-                if (inventoryType == 0)
+                int inventoryType = item.inventoryManager.GetComponent<InventoryManager>().inventoryType;
+                InventoryManager.StorageType type = item.inventoryManager.GetComponent<InventoryManager>().type;
+                if (type == InventoryManager.StorageType.Chest)
                 {
-                    if (GetComponent<Item>().invType != 0)
-                    {
-                        InventoryHelper.SetEqSwitch(item.Position, null, GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().equipment);
-                        GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(gameObject);
-                    }
                     InventoryHelper.swapItemsOrDrop(gameObject, item.inventoryManager.GetComponent<InventoryManager>().inventory);
                 }
-                else if (inventoryType == 1)
+                else
                 {
-                    InventoryHelper.swapEqOrPlace(gameObject, item.inventoryManager.GetComponent<InventoryManager>().equipment);
+                    if (inventoryType == 0)
+                    {
+                        if (GetComponent<Item>().invType != 0)
+                        {
+                            InventoryHelper.SetEqSwitch(item.Position, null, GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().equipment);
+                            GetComponent<Item>().inventoryManager.GetComponent<InventoryManager>().inventory.Add(gameObject);
+                        }
+                        InventoryHelper.swapItemsOrDrop(gameObject, item.inventoryManager.GetComponent<InventoryManager>().inventory);
+                    }
+                    else if (inventoryType == 1)
+                    {
+                        InventoryHelper.swapEqOrPlace(gameObject, item.inventoryManager.GetComponent<InventoryManager>().equipment);
+                    }
                 }
+                item.drag = false;
+                Debug.Log(Input.mousePosition - item.inventoryManager.GetComponent<RectTransform>().position);
+                InventoryHelper.dragging = null;
             }
-            item.drag = false;
-            InventoryHelper.dragging = null;
         }
         #endregion
     }
@@ -68,8 +76,8 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void OnPointerEnter(PointerEventData eventData)
     {
         Item item = GetComponent<Item>();
-        Text name = item.inventoryManager.GetComponent<InventoryManager>().itemName.GetComponent<Text>();
-        Text lore = item.inventoryManager.GetComponent<InventoryManager>().itemLore.GetComponent<Text>();
+        Text name = item.inventoryManager.GetComponent<InventoryManager>().itemName.GetComponentInChildren<Text>();
+        Text lore = item.inventoryManager.GetComponent<InventoryManager>().itemLore.GetComponentInChildren<Text>();
 
         name.text = item.Name;
         lore.text = item.Lore;
@@ -78,8 +86,8 @@ public class SlotManager : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     public void OnPointerExit(PointerEventData eventData)
     {
         Item item = GetComponent<Item>();
-        Text name = item.inventoryManager.GetComponent<InventoryManager>().itemName.GetComponent<Text>();
-        Text lore = item.inventoryManager.GetComponent<InventoryManager>().itemLore.GetComponent<Text>();
+        Text name = item.inventoryManager.GetComponent<InventoryManager>().itemName.GetComponentInChildren<Text>();
+        Text lore = item.inventoryManager.GetComponent<InventoryManager>().itemLore.GetComponentInChildren<Text>();
 
         name.text = "";
         lore.text = "";

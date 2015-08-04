@@ -11,6 +11,7 @@ public class Item : MonoBehaviour {
     public bool dragFail = false;
     public int invType = 0;
     public Vector3 contextPos;
+    public float dragTime = 0f;
 
     private int id;
     private string nme, lore;
@@ -107,9 +108,13 @@ public class Item : MonoBehaviour {
             if (invType != inventoryManager.GetComponent<InventoryManager>().inventoryType)
                 gameObject.SetActive(false);
         }
-        else if (drag)
+        else if (drag && dragTime > 0.10f)
         {
             InventoryHelper.followMouse(gameObject);
+        }
+        else
+        {
+            dragTime += Time.deltaTime;
         }
     }
 
