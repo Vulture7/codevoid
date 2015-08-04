@@ -7,6 +7,7 @@ public class ViewManager : MonoBehaviour {
     private Transform lastLooked;
     private Transform lastHit;
 
+<<<<<<< HEAD
     public GameObject questUI;
     public GameObject questManager;
 
@@ -16,10 +17,17 @@ public class ViewManager : MonoBehaviour {
     public Text npcLevel;
     public Slider npcSlider;
 
+=======
+>>>>>>> origin/Test-Stack
     public Text interactText;
 
     void Update()
     {
+<<<<<<< HEAD
+=======
+        //Item itemInHands = transform.parent.GetComponent<PlayerManager>().itemInHands;
+
+>>>>>>> origin/Test-Stack
         #region OnLook
         RaycastHit hit;
         bool looking = true;
@@ -27,16 +35,22 @@ public class ViewManager : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit))
         {
             lastHit = hit.transform;
+            Debug.Log(hit.transform.tag);
             switch (hit.transform.tag)
             {
+<<<<<<< HEAD
                 case "QNPC":
                     if (hit.distance > 6f) { return; }
                     if (Input.GetKeyDown(SettingValues.interactKey)) { questUI.GetComponent<QuestUIManager>().ShowQuest(lastHit.GetComponent<QuestNpcManager>().quest); return; }
                     hit.transform.GetComponent<QuestNpcManager>().looking = true;
+=======
+                case "NPC":
+                    if (hit.distance > 6f) { return; }
+                    hit.transform.GetComponent<NpcManager>().looking = true;
+>>>>>>> origin/Test-Stack
                     break;
                 case "Crate":
                     if (hit.distance > 6f) { return; }
-                    if (Input.GetKeyDown(SettingValues.interactKey)) { return; }
                     hit.transform.GetComponent<CrateManager>().looking = true;
                     break;
                 case "NPC":
